@@ -69,7 +69,7 @@ export default function Login() {
                                     <Input.Error errors={errors.password} />
                                 )}
                             </div>
-                            <div className='flex flex-1 items-center gap-x-1'>
+                            {/* <div className='flex flex-1 items-center gap-x-1'>
                                 <Input
                                     onChange={onHandleChange}
                                     type='checkbox'
@@ -79,7 +79,7 @@ export default function Login() {
                                 <p className='text-sm italic text-blue-600'>
                                     Remember Me
                                 </p>
-                            </div>
+                            </div> */}
                             <Button
                                 onClick={submitHandler}
                                 className={
