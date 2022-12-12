@@ -1,0 +1,40 @@
+{
+    "private": true,
+    "scripts": {
+        "format": "prettier --write .",
+        "dev": "npm run development",
+        "development": "mix",
+        "watch": "mix watch",
+        "watch-poll": "mix watch -- --watch-options-poll=1000",
+        "hot": "mix watch --hot",
+        "prod": "npm run production",
+        "production": "mix --production"
+    },
+    "devDependencies": {
+        "@babel/preset-react": "^7.18.6",
+        "autoprefixer": "^10.4.13",
+        "axios": "^0.21",
+        "browser-sync": "^2.27.10",
+        "browser-sync-webpack-plugin": "^2.3.0",
+        "laravel-mix": "^6.0.6",
+        "lodash": "^4.17.19",
+        "postcss": "^8.4.18",
+        "prettier": "2.7.1",
+        "tailwindcss": "^3.2.1"
+    },
+    "dependencies": {
+        "@headlessui/react": "^1.7.3",
+        "@inertiajs/inertia": "^0.11.1",
+        "@inertiajs/inertia-react": "^0.8.1",
+        "@inertiajs/progress": "^0.2.7",
+        "chart.js": "^4.0.1",
+        "clsx": "^1.2.1",
+        "moment": "^2.29.4",
+        "react": "^18.2.0",
+        "react-chartjs-2": "^5.0.1",
+        "react-dom": "^18.2.0",
+        "react-hot-toast": "^2.4.0",
+        "react-simple-image-slider": "^2.4.1",
+        "react-slideshow-image": "^4.0.5"
+    }
+}
