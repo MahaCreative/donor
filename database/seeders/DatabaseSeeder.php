@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        User::created([
+        User::create([
             'name' => 'administrator',
             'email' => 'admin@gmail.com',
             'password' => bcrypt('password'),
@@ -29,5 +29,7 @@ class DatabaseSeeder extends Seeder
             GolonganDarahSeeder::class,
             StokDarahSeeder::class
         ]);
+        $user = User::find(1);
+        $user->assignRole('guest');
     }
 }
