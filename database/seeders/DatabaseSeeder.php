@@ -23,13 +23,11 @@ class DatabaseSeeder extends Seeder
             'email_verified_at' => now()
         ]);
 
-        Profile::factory(10)->create();
+        Profile::factory(1)->create();
         $this->call([
             RoleSeeder::class,
             GolonganDarahSeeder::class,
             StokDarahSeeder::class
         ]);
-        $user = User::find(1);
-        $user->assignRole('guest');
     }
 }
