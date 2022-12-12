@@ -88,7 +88,7 @@ export default function Login() {
                             >
                                 Login
                             </Button>
-                            <div className='flex justify-between items-center w-full'>
+                            {/* <div className='flex justify-between items-center w-full'>
                                 <Link
                                     className='text-blue-600 underline hover:text-blue-900'
                                     href='register'
@@ -101,7 +101,7 @@ export default function Login() {
                                 >
                                     Forgot Password
                                 </Link>
-                            </div>
+                            </div> */}
                         </form>
                     </div>
                 </div>
