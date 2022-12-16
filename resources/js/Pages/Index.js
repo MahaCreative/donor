@@ -5,9 +5,7 @@ import Button from '../Components/Button';
 import Container from '../Components/Container';
 import Guest from '../Layouts/Guest';
 
-export default function Index({event}) {
-
-  
+export default function Index({ event }) {
     return (
         <>
             <Container id='beranda' className={'h-screen'}>
@@ -32,8 +30,6 @@ export default function Index({event}) {
                     </Link> */}
                 </div>
             </Container>
- 
-  
         </>
     );
 }

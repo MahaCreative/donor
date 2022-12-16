@@ -1,46 +1,65 @@
 import { Menu } from '@headlessui/react';
 import { Inertia } from '@inertiajs/inertia';
+import { debounce } from 'lodash';
 import moment from 'moment/moment';
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react';
 // import { setDatasets } from 'react-chartjs-2/dist/utils';
 import Breadcrumb from '../../../Components/Auth/Breadcrumb';
 import Card from '../../../Components/Auth/Card';
 import Button from '../../../Components/Button';
 import Modal from '../../../Components/Guest/Modal';
+import NavLink from '../../../Components/Guest/NavLink';
 import Input from '../../../Components/Input';
 import Table from '../../../Components/Table';
 import UseModal from '../../../CostumHook/Modal/UseModal';
-import Backend from '../../../Layouts/Backend'
+import Backend from '../../../Layouts/Backend';
 import Create from './Create';
-import Proses from './Proses';
-import Update from './Update';
-export default function Index({golDar, permintaan}) {
 
-    const [params, setParams] = useState({ s: '', });
-    const [model, setModel] = useState([])
-    const {open:addModalButton, close:closeAddModal, modal:modalAddTrigger} = UseModal()
-    const { open: EditModalButton, close: closeEditModal, modal: modalEditTrigger } = UseModal()
-    const { open: DeleteModalButton, close: closeDeleteModal, modal: modalDeleteTrigger } = UseModal()
-    const { open: ProsesModalButton, close: closeProsesModal, modal: modalProsesTrigger } = UseModal()
-    
+import Update from './Update';
+export default function Index({ golDar, permintaan, endDate, startDate }) {
+    const [params, setParams] = useState({ search: '', dari_tanggal:startDate, sampai_tanggal:endDate });
+    const [model, setModel] = useState([]);
+    const { open: addModalButton, close: closeAddModal, modal: modalAddTrigger, } = UseModal();
+    const { open: EditModalButton, close: closeEditModal, modal: modalEditTrigger, } = UseModal();
+    const { open: DeleteModalButton, close: closeDeleteModal, modal: modalDeleteTrigger, } = UseModal();
+    const { open: ProsesModalButton, close: closeProsesModal, modal: modalProsesTrigger, } = UseModal();
+    const { open: modalFilterButton, close: closeModalFilter, modal: modalFilterTrigger, } = UseModal();
+
     const editModal = (data) => {
-        EditModalButton()
-        setModel(data)
-    }
+        EditModalButton();
+        setModel(data);
+    };
     const deleteModal = (data) => {
-        setModel(data)
+        setModel(data);
         DeleteModalButton();
-    }
+    };
     const deleteHandler = () => {
-        Inertia.delete(route('permintaan-darah-delete', model.id),
-        {onSuccess: closeDeleteModal()})
+        Inertia.delete(route('permintaan-darah-delete', model.id), {
+            onSuccess: closeDeleteModal(),
+        });
+    };
+    const prosesModal = (data) => {
+        setModel(data)
+        ProsesModalButton();
+    };
+    const ambilDarah = () => {
+        Inertia.post(route('permintaan-darah-proses'), model);
     }
-    const prosesModal = () => {
-        ProsesModalButton()
-    }
-  return (
-    <div>
-      <Modal
+    const filterModal = () => {
+        modalFilterButton();
+    };
+    const reload = useCallback(debounce((query) => {
+        Inertia.get(
+            route('permintaan-darah'),
+            query,
+            { preserveState: true },
+            150
+        );
+    }), [])
+    useEffect(() => reload(params), [params]);
+    return (
+        <div>
+            <Modal
                 closeModal={closeAddModal}
                 trigger={modalAddTrigger}
                 headerTitle={'Tambah Permintaan Darah'}
@@ -48,39 +67,120 @@ export default function Index({golDar, permintaan}) {
             >
                 <Create golDar={golDar} onClose={closeAddModal}></Create>
             </Modal>
-      <Modal
+            <Modal
                 closeModal={closeEditModal}
                 trigger={modalEditTrigger}
                 headerTitle={'Edit Permintaan Darah'}
                 className=' bg-white/10'
             >
-                <Update golDar={golDar} model={model} onClose={closeEditModal}></Update>
-          </Modal>
-          <Modal
+                <Update
+                    golDar={golDar}
+                    model={model}
+                    onClose={closeEditModal}
+                ></Update>
+            </Modal>
+            {/* Filter */}
+            <Modal
+                trigger={modalFilterTrigger}
+                closeModal={closeModalFilter}
+                headerTitle={'Filter Cetak Report'}
+                className=' bg-white/10'
+            >
+                <p className='text-white'>
+                    Silahkan atur waktu data yang ingin di tampilkan
+                </p>
+                <div className='md:grid md:grid-cols-1 grid-cols-1 gap-1'>
+                    <div>
+                        <label htmlFor='' className='text-white'>
+                            {' '}
+                            Dari Tanggal
+                        </label>
+                        <Input
+                            onChange={(e) =>
+                                setParams({
+                                    ...params,
+                                    dari_tanggal: e.target.value,
+                                })
+                            }
+                            type='date'
+                            placeholder='jenis_donor'
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor='' className='text-white'>
+                            {' '}
+                            Sampai Tanggal
+                        </label>
+                        <Input
+                            onChange={(e) =>
+                                setParams({
+                                    ...params,
+                                    sampai_tanggal: e.target.value,
+                                })
+                            }
+                            type='date'
+                            placeholder='sampai tanggal'
+                        />
+                    </div>
+                </div>
+                <div className='flex justify-between'>
+                    <Button
+                        className={'bg-emerald-500 text-white'}
+                        onClick={() => cetakHandler()}
+                    >
+                        Submit
+                    </Button>
+                    <Button
+                        className={'bg-red-600 text-white'}
+                        onClick={closeModalFilter}
+                    >
+                        Cancell
+                    </Button>
+                </div>
+            </Modal>
+            <Modal
                 closeModal={closeDeleteModal}
                 trigger={modalDeleteTrigger}
                 headerTitle={'Delete Permintaan Darah'}
                 className=' bg-white/10'
             >
-              <p className='text-white'>Yakin Ingin Menghapus Data, data yang di hapus akan mempengaruhi data lainnya ?</p>
-              <div className="flex gap-2 mt-2">
-                  <Button className={'bg-green-600 text-white'} onClick={deleteHandler}>Submit</Button>
-                  <Button className={'bg-red-600 text-white'} onClick={closeDeleteModal}>Cancell</Button>
-              </div>
-          </Modal>
-          <Modal
+                <p className='text-white'>
+                    Yakin Ingin Menghapus Data, data yang di hapus akan
+                    mempengaruhi data lainnya ?
+                </p>
+                <div className='flex gap-2 mt-2'>
+                    <Button
+                        className={'bg-green-600 text-white'}
+                        onClick={deleteHandler}
+                    >
+                        Submit
+                    </Button>
+                    <Button
+                        className={'bg-red-600 text-white'}
+                        onClick={closeDeleteModal}
+                    >
+                        Cancell
+                    </Button>
+                </div>
+            </Modal>
+            <Modal
                 closeModal={closeProsesModal}
                 trigger={modalProsesTrigger}
-                headerTitle={'Edit Permintaan Darah'}
+                headerTitle={'Proses Permintaan Darah'}
                 className=' bg-white/10'
+                size={'w-[95%]'}
             >
-                <Proses></Proses>
-          </Modal>
-      <Breadcrumb href={route('permintaan-darah')} active={route().current('permintaan-darah')}>
-          Permintaan Darah
-      </Breadcrumb>
-  
-      <div className='flex justify-between py-1.5 border-b border-dashed border-white/30 items-center'>
+                <p className='text-white'>Mengambil Darah dari stok yang ada ???</p>
+                <Button className={'bg-green-500'} onClick={ambilDarah}>Ambil Darah</Button>
+            </Modal>
+            <Breadcrumb
+                href={route('permintaan-darah')}
+                active={route().current('permintaan-darah')}
+            >
+                Permintaan Darah
+            </Breadcrumb>
+
+            <div className='flex justify-between py-1.5 border-b border-dashed border-white/30 items-center'>
                 <div className='text-white flex gap-x-3 items-center'>
                     <Button
                         onClick={addModalButton}
@@ -88,13 +188,31 @@ export default function Index({golDar, permintaan}) {
                     >
                         Tambah Permintaan
                     </Button>
+                    <Button
+                        onClick={filterModal}
+                        className={'bg-cyan-400 hover:bg-cyan-500'}
+                    >
+                        Filter Tanggal
+                    </Button>
+                    <NavLink 
+                        className={'bg-green-600 hover:bg-green-800'}
+                        href={route('cetak-permintaan-darah')}
+                    >
+                        Cetak
+                    </NavLink>
                 </div>
                 <div className='w-1/5'>
-                    <Input onChange={(e) => setParams({...params, s:e.target.value})} className='bg-white' placeholder='Search...' />
+                    <Input
+                        onChange={(e) =>
+                            setParams({ ...params, search: e.target.value })
+                        }
+                        className='bg-white'
+                        placeholder='Search...'
+                    />
                 </div>
             </div>
             <div>
-                <Table className='h-[450px] bg-white'>
+                <Table className='min-h-[450px] max-h-[500px] bg-white'>
                     <Table.Thead className={'bg-gray-600 sticky top-0'}>
                         <tr>
                             <Table.Th>Kode Permintaan</Table.Th>
@@ -111,32 +229,68 @@ export default function Index({golDar, permintaan}) {
                         {permintaan.map((item) => (
                             <tr key={item.id} className='odd:hover:bg-gray-100'>
                                 <Table.Td>{item.kode_permintaan}</Table.Td>
-                                <Table.Td> {moment(item.created_at).format( 'DD-MMMM-YYYY' )}
+                                <Table.Td>
+                                    {' '}
+                                    {moment(item.created_at).format(
+                                        'DD-MMMM-YYYY'
+                                    )}
                                 </Table.Td>
-                                <Table.Td>{ item.nama}</Table.Td>
-                                <Table.Td>{ item.golongan_darah}</Table.Td>
-                                <Table.Td>{ item.keterangan}</Table.Td>
-                                <Table.Td>{ item.jumlah_permintaan}</Table.Td>
+                                <Table.Td>{item.nama}</Table.Td>
+                                <Table.Td>{item.golongan_darah}</Table.Td>
+                                <Table.Td>{item.keterangan}</Table.Td>
+                                <Table.Td>{item.jumlah_permintaan}</Table.Td>
                                 {/* <Table.Td> {item.user_id ? item.user.nama : item.pendonor.nama} </Table.Td> */}
-                                {(() => { if (item.status === 'verifikasi') { return ( <Table.Td className='text-orange-600 capitalize'> {item.status} </Table.Td> ); } else if (item.status === 'gagal') { return ( <Table.Td className='text-red-500 capitalize'> {item.status} </Table.Td> ); } else if ( item.status === 'berhasil' ) { return ( <Table.Td className='text-green-500 capitalize'> {item.status} </Table.Td> ); } })()}
+                                {(() => {
+                                    if (item.status === 'verifikasi') {
+                                        return (
+                                            <Table.Td className='text-orange-600 capitalize'>
+                                                {' '}
+                                                {item.status}{' '}
+                                            </Table.Td>
+                                        );
+                                    } else if (item.status === 'gagal') {
+                                        return (
+                                            <Table.Td className='text-red-500 capitalize'>
+                                                {' '}
+                                                {item.status}{' '}
+                                            </Table.Td>
+                                        );
+                                    } else if (item.status === 'berhasil') {
+                                        return (
+                                            <Table.Td className='text-green-500 capitalize'>
+                                                {' '}
+                                                {item.status}{' '}
+                                            </Table.Td>
+                                        );
+                                    }
+                                })()}
 
                                 <Table.Td>
                                     <Menu>
                                         <Table.Dropdown>
-                                            {item.status == 'berhasil' && (<Table.DropdownButton
-                                                onClick={() => lihatModal(item)}
-                                            >
-                                                Lihat
-                                            </Table.DropdownButton>)}
-                                            {item.status == 'verifikasi' && (<Table.DropdownButton onClick={() => prosesModal()}>
-                                                Proses
-                                            </Table.DropdownButton>)}
-                                            <Table.DropdownButton 
+                                            
+                                            {item.status == 'verifikasi' && (
+                                                <Table.DropdownButton
+                                                    onClick={() =>
+                                                        prosesModal(item)
+                                                    }
+                                                >
+                                                    Proses
+                                                </Table.DropdownButton>
+                                            )}
+                                            <Table.DropdownButton
                                                 onClick={() => editModal(item)}
                                             >
                                                 Edit
                                             </Table.DropdownButton>
-                                            <Table.DropdownButton onClick={() => deleteModal(item)}> Delete </Table.DropdownButton>
+                                            <Table.DropdownButton
+                                                onClick={() =>
+                                                    deleteModal(item)
+                                                }
+                                            >
+                                                {' '}
+                                                Delete{' '}
+                                            </Table.DropdownButton>
                                         </Table.Dropdown>
                                     </Menu>
                                 </Table.Td>
@@ -145,7 +299,7 @@ export default function Index({golDar, permintaan}) {
                     </Table.Tbody>
                 </Table>
             </div>
-    </div>
-  )
+        </div>
+    );
 }
 Index.layout = (page) => <Backend children={page} />;

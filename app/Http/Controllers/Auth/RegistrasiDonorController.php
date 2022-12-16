@@ -9,46 +9,96 @@ use App\Models\GolonganDarah;
 use App\Models\Pendonor;
 use App\Models\RegistrasiDonor;
 use Carbon\Carbon;
+use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class RegistrasiDonorController extends Controller
 {
     public $search;
+
+    public function query()
+    {
+        return RegistrasiDonor::join('users', 'registrasi_donors.petugas_id', 'users.id')
+            ->join('profiles', 'users.id', 'profiles.user_id')
+            ->join('pendonors', 'registrasi_donors.pendonor_id', 'pendonors.id')
+            ->leftJoin('proses_registrasi_donors', 'registrasi_donors.id', 'proses_registrasi_donors.registrasi_donor_id')
+            ->join('golongan_darahs', 'registrasi_donors.golongan_darah', 'golongan_darahs.id')
+            ->select([
+                'registrasi_donors.tanggal_donor_darah', 'registrasi_donors.jam_donor_darah',
+                'registrasi_donors.jenis_donor', 'registrasi_donors.status_donor', 'registrasi_donors.created_at', 'registrasi_donors.kode_registrasi',
+                'registrasi_donors.id',
+                // Proses Donors
+                'proses_registrasi_donors.status', 'proses_registrasi_donors.jumlah_darah',
+                'golongan_darahs.golongan_darah',
+                'profiles.nama as nama_petugas',
+                'pendonors.*'
+            ]);
+    }
     public function index(Request $request)
     {
         $registrasi = [];
-        if ($request->j) {
+        $paginate = $request->paginate;
+        // $registrasi = $this->query();
 
-            $registrasi = RegistrasiDonor::with(['darah', 'petugas', 'pendonor', 'proses', 'user' => function ($query) {
-                $query->with('profile')->first();
-            }])->where('jenis_donor', $request->j)
-                ->latest()->get();
-        } else {
-            $registrasi = RegistrasiDonor::with(['darah', 'petugas', 'pendonor', 'proses', 'user' => function ($query) {
-                $query->with('profile')->first();
-            }])->latest()->get();
+        if ($request->j != null and $request->search == null) {
+            if ($request->dari_tanggal or $request->sampai_tanggal) {
+                $registrasi = $this->query()
+                    ->where('registrasi_donors.jenis_donor', $request->j)
+                    ->whereBetween('registrasi_donors.created_at', [$request->dari_tanggal, $request->sampai_tanggal])
+                    ->orderByDesc('registrasi_donors.created_at')
+                    ->get();
+            } else {
+                $registrasi = $this->query()
+                    ->where('registrasi_donors.jenis_donor', $request->j)
+                    ->orderByDesc('registrasi_donors.created_at')
+                    ->get();
+            }
+        } else if ($request->search !== null and $request->j == null) {
+            if ($request->dari_tanggal != null or $request->sampai_tanggal != null) {
+                $registrasi = $this->query()
+                    ->orWhere('registrasi_donors.tanggal_donor_darah', 'like', '%' . $request->search . '%')
+                    ->orWhere('pendonors.nama', 'like', '%' . $request->search . '%')
+                    ->orWhere('profiles.nama', 'like', '%' . $request->search . '%')
+                    ->orWhere('registrasi_donors.status_donor', 'like', '%' . $request->search . '%')
+                    ->whereBetween('registrasi_donors.created_at', [$request->dari_tanggal, $request->sampai_tanggal])
+                    ->orderByDesc('registrasi_donors.created_at')
+                    ->get();
+            } else {
+                $registrasi = $this->query()
+                    ->orWhere('registrasi_donors.tanggal_donor_darah', 'like', '%' . $request->search . '%')
+                    ->orWhere('pendonors.nama', 'like', '%' . $request->search . '%')
+                    ->orWhere('profiles.nama', 'like', '%' . $request->search . '%')
+                    ->orWhere('registrasi_donors.status_donor', 'like', '%' . $request->search . '%')
+                    ->orderByDesc('registrasi_donors.created_at')
+                    ->get();
+            }
+        } else if ($request->j == null and $request->search == null) {
+            if ($request->dari_tanggal != null or $request->sampai_tanggal != null) {
+                $registrasi = $this->query()->orderByDesc('registrasi_donors.created_at')
+                    ->whereBetween('registrasi_donors.created_at', [$request->dari_tanggal, $request->sampai_tanggal])
+                    ->get();
+            } else {
+                $registrasi = $this->query()->orderByDesc('registrasi_donors.created_at')
+                    ->get();
+            }
+        } else if ($request->j !== null and $request->search !== null) {
+            $registrasi = $this->query()
+                ->where([['registrasi_donors.tanggal_donor_darah', 'like', '%' . $request->search . '%'], ['registrasi_donors.jenis_donor', $request->j]])
+                ->orWhere([['pendonors.nama', 'like', '%' . $request->search . '%'], ['registrasi_donors.jenis_donor', $request->j]])
+                ->orWhere([['profiles.nama', 'like', '%' . $request->search . '%'], ['registrasi_donors.jenis_donor', $request->j]])
+                ->orWhere([['registrasi_donors.status_donor', 'like', '%' . $request->search . '%'], ['registrasi_donors.jenis_donor', $request->j]])
+                ->orderByDesc('registrasi_donors.created_at')
+                ->get();
         }
-        if ($request->search) {
-            $this->search = $request->search;
-            $registrasi = RegistrasiDonor::with(['darah', 'petugas', 'pendonor', 'proses', 'user' => function ($query) {
-                $query->with('profile')->first();
-            }])->where('tanggal_donor_darah', 'like', '%' . $request->search . '%')
-                ->latest()->get();
-            // dd($registrasi);
-        } else {
-            $registrasi = RegistrasiDonor::with(['darah', 'petugas', 'pendonor', 'proses', 'user' => function ($query) {
-                $query->with('profile')->first();
-            }])->latest()->get();
-        }
-
-
         $pengganti = RegistrasiDonor::where('jenis_donor', 'pengganti')->count();
         $sukarela = RegistrasiDonor::where('jenis_donor', 'sukarela')->count();
         $bayaran = RegistrasiDonor::where('jenis_donor', 'bayaran')->count();
         // $count = DB::table('registrasi_donors')->select(DB::raw('jenis_donor as jenis'), DB::raw('count(jenis_donor) as total'))->groupBy(DB::raw('jenis_donor'))->get();
         // dd($registrasi);
         $darah = GolonganDarah::all();
+
+        $request->session()->put('cetak', $registrasi);
         return inertia('Backend/Registrasi/RegistrasiDonor', ['pengganti' => $pengganti, 'sukarela' => $sukarela, 'bayaran' => $bayaran, 'registrasi' => $registrasi, 'golDar' => $darah]);
     }
     public function store(Request $request)
@@ -72,7 +122,18 @@ class RegistrasiDonorController extends Controller
             'jenis_donor' => 'required',
 
         ]);
-
+        $CekPendonor = Pendonor::where('nama', 'like', '%' . $attr['nama'] . '%')
+            ->where('email', 'like', '%' . $attr['email'] . '%')
+            ->where('tanggal_lahir', 'like', '%' . $attr['tanggal_lahir'] . '%')
+            ->where('tempat_lahir', 'like', '%' . $attr['tempat_lahir'] . '%')
+            ->whereMonth('created_at', Carbon::now()->format('m'))
+            ->count();
+        if ($CekPendonor >= 3) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Gagal Melakukan Donor Karena, Pendonor telah melakukan donor 3 kali dalam bulan ini'
+            ]);
+        }
         $pendonor = Pendonor::create([
             'email' => $request->email,
             'nama' => $request->nama,
@@ -104,7 +165,7 @@ class RegistrasiDonorController extends Controller
             return redirect()->back()->with([
                 'type' => 'success',
                 'message' => 'Berhasil Menambahkan Data'
-            ]);;
+            ]);
         } else {
             dd('gaga');
         }

@@ -21,20 +21,25 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
         jam_donor: '',
         jenis_donor: '',
     });
+
     const onChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     };
 
     const submitHandler = () => {
-        post(route('admin-registrasi-donor'));
-        {onSuccess: () => closeModal()}
+        post(route('admin-registrasi-donor'), {
+            onSuccess: () => closeModal(),
+        });
     };
 
     return (
         <form action='' className='px-3'>
-            <div className='flex flex-col gap-y-3 px-3 py-3'>
-                <div className='flex flex-col gap-y-3'>
+            <div className='flex flex-col gap-y-1 px-3 py-3'>
+                <div className='flex flex-col gap-y-1'>
                     <div>
+                        <label htmlFor='' className='text-white'>
+                            Nama Lengkap
+                        </label>
                         <Input
                             onChange={onChange}
                             placeholder='Nama Lengkap'
@@ -43,6 +48,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                         {errors && <Input.Error errors={errors.nama} />}
                     </div>
                     <div>
+                        <label htmlFor='' className='text-white'>
+                            Email
+                        </label>
                         <Input
                             onChange={onChange}
                             type='email'
@@ -51,8 +59,11 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                         />
                         {errors && <Input.Error errors={errors.email} />}
                     </div>
-                    <div className='flex flex-col md:flex-row gap-2'>
+                    <div className='flex flex-col md:flex-row gap-1'>
                         <div>
+                            <label htmlFor='' className='text-white'>
+                                Tempat Lahir
+                            </label>
                             <Input
                                 onChange={onChange}
                                 placeholder='Tempat Lahir'
@@ -63,6 +74,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                             )}
                         </div>
                         <div>
+                            <label htmlFor='' className='text-white'>
+                                Tanggal Lahir
+                            </label>
                             <Input
                                 onChange={onChange}
                                 type='date'
@@ -74,6 +88,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                             )}
                         </div>
                         <div>
+                            <label htmlFor='' className='text-white'>
+                                Jenis Kelamin
+                            </label>
                             <select
                                 onChange={onChange}
                                 className='w-full py-1 px-4 outline-none rounded-md shadow-md text-gray-900 border border-dashed border-gray-900 placeholder:text-gray-900 focus:ring focus:ring-gray-700/50 focus:ring-offset-2 focus:shadow-md accent-blue-600'
@@ -93,6 +110,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                             )}
                         </div>
                         <div className='w-full'>
+                            <label htmlFor='' className='text-white'>
+                                Telp
+                            </label>
                             <Input
                                 onChange={onChange}
                                 placeholder='Telp'
@@ -103,6 +123,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                     </div>
 
                     <div>
+                        <label htmlFor='' className='text-white'>
+                            Alamat
+                        </label>
                         <textarea
                             onChange={onChange}
                             name='alamat'
@@ -112,9 +135,12 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                         {errors && <Input.Error errors={errors.alamat} />}
                     </div>
 
-                    <div className='flex flex-col gap-y-3'>
+                    <div className='flex flex-col gap-y-1'>
                         <div className='flex flex-col md:flex-row gap-2'>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Pekerjaan
+                                </label>
                                 <Input
                                     onChange={onChange}
                                     placeholder='Pekerjaan'
@@ -125,6 +151,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                                 )}
                             </div>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Riwayat Penyakit
+                                </label>
                                 <Input
                                     onChange={onChange}
                                     placeholder='Riwayat Penyakit'
@@ -137,6 +166,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                                 )}
                             </div>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Berat Badan
+                                </label>
                                 <Input
                                     onChange={onChange}
                                     type='number'
@@ -148,6 +180,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                                 )}
                             </div>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Tinggi Badan
+                                </label>
                                 <Input
                                     onChange={onChange}
                                     type='number'
@@ -160,6 +195,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                             </div>
                         </div>
                         <div>
+                            <label htmlFor='' className='text-white'>
+                                Golongan Darah
+                            </label>
                             <select
                                 onChange={onChange}
                                 className='w-full py-1 px-4 outline-none rounded-md shadow-md text-gray-900 border border-dashed border-gray-900 placeholder:text-gray-900 focus:ring focus:ring-gray-700/50 focus:ring-offset-2 focus:shadow-md accent-blue-600'
@@ -182,8 +220,11 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                             )}
                         </div>
                         {/* {errors && (<div className='text-red-600 text-sm italic'>{errors.golongan_darah}</div>)} */}
-                        <div className='flex flex-col md:flex-row gap-2'>
+                        <div className='flex flex-col md:flex-row gap-1'>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Request Tanggal Pendonoran
+                                </label>
                                 <Input
                                     onChange={onChange}
                                     type='date'
@@ -197,6 +238,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                                 )}
                             </div>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Request Jam Pendonoroan
+                                </label>
                                 <Input
                                     onChange={onChange}
                                     type='time'
@@ -208,6 +252,9 @@ export default function CreateRegitstrasi({ golDar, closeModal }) {
                                 )}
                             </div>
                             <div className='w-full'>
+                                <label htmlFor='' className='text-white'>
+                                    Jenis Donor Darah
+                                </label>
                                 <select
                                     onChange={onChange}
                                     className='w-full py-1 px-4 outline-none rounded-md shadow-md text-gray-900 border border-dashed border-gray-900 placeholder:text-gray-900 focus:ring focus:ring-gray-700/50 focus:ring-offset-2 focus:shadow-md accent-blue-600'

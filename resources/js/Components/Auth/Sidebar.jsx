@@ -1,8 +1,9 @@
-import { Menu } from '@headlessui/react';
+import { Disclosure, Menu } from '@headlessui/react';
 import clsx from 'clsx';
 import React, { useEffect, useState } from 'react';
 import NavLink from '../Guest/NavLink';
 import DropdownMenu from '../Guest/DropdownMenu';
+import { ChevronUpIcon } from '@heroicons/react/20/solid';
 export default function Sidebar({ open = false, setOpen, label }) {
     const [toggler, setToggler] = useState(false);
 
@@ -22,7 +23,7 @@ export default function Sidebar({ open = false, setOpen, label }) {
                     viewBox='0 0 24 24'
                     strokeWidth={1.5}
                     stroke='currentColor'
-                    className='flex justify-end hover:cursor-pointer hover:text-blue-800 duration-300 ease-linear transition w-6 h-6'
+                    className='flex justify-end hover:cursor-pointer hover:text-gray-800 duration-300 ease-linear transition w-6 h-6'
                 >
                     <path
                         strokeLinecap='round'
@@ -35,26 +36,109 @@ export default function Sidebar({ open = false, setOpen, label }) {
                 <NavLink className={'block'} href={route('dashboard')}>
                     Dashboard
                 </NavLink>
-                <NavLink
-                    className={'block'}
-                    href={route('admin-registrasi-donor')}
-                >
-                    Data Registrasi Pendonor
-                </NavLink>
+                <Disclosure>
+                    {({ open }) => (
+                        <>
+                            <Disclosure.Button className='flex w-full justify-between rounded-lg bg-gray-400/30 px-4 py-2 text-left text-sm font-medium text-white focus-visible:text-black hover:bg-gray-600 focus:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-opacity-75'>
+                                <span>Menu Registrasi Donor</span>
+                                <ChevronUpIcon
+                                    className={`${
+                                        open ? 'rotate-180 transform' : ''
+                                    } h-5 w-5 text-gray-500`}
+                                />
+                            </Disclosure.Button>
+                            <Disclosure.Panel className='px-4 pt-4 pb-2 text-sm text-gray-500'>
+                                <NavLink
+                                    className={'block'}
+                                    href={route('admin-registrasi-donor')}
+                                >
+                                    Data Registrasi Pendonor
+                                </NavLink>
+                                <NavLink
+                                    className={'block'}
+                                    href={route('proses-donor')}
+                                >
+                                    Proses Registrasi Donor
+                                </NavLink>
+                            </Disclosure.Panel>
+                        </>
+                    )}
+                </Disclosure>
+                <Disclosure>
+                    {({ open }) => (
+                        <>
+                            <Disclosure.Button className='flex w-full justify-between rounded-lg bg-gray-400/30 px-4 py-2 text-left text-sm font-medium text-white focus-visible:text-black hover:bg-gray-600 focus:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-opacity-75'>
+                                <span>Menu Permintaan Darah</span>
+                                <ChevronUpIcon
+                                    className={`${
+                                        open ? 'rotate-180 transform' : ''
+                                    } h-5 w-5 text-gray-500`}
+                                />
+                            </Disclosure.Button>
+                            <Disclosure.Panel className='px-4 pt-4 pb-2 text-sm text-gray-500'>
+                                <NavLink
+                                    className={'block'}
+                                    href={route('permintaan-darah')}
+                                >
+                                    Register Permintaan Darah
+                                </NavLink>
+                                
+                            </Disclosure.Panel>
+                        </>
+                    )}
+                </Disclosure>
+                <Disclosure>
+                    {({ open }) => (
+                        <>
+                            <Disclosure.Button className='flex w-full justify-between rounded-lg bg-gray-400/30 px-4 py-2 text-left text-sm font-medium text-white focus-visible:text-black hover:bg-gray-600 focus:outline-none focus-visible:ring focus-visible:ring-white focus-visible:ring-opacity-75'>
+                                <span>Menu Gologan Darah</span>
+                                <ChevronUpIcon
+                                    className={`${
+                                        open ? 'rotate-180 transform' : ''
+                                    } h-5 w-5 text-gray-500`}
+                                />
+                            </Disclosure.Button>
+                            <Disclosure.Panel className='px-4 pt-4 pb-2 text-sm text-gray-500'>
+                                <NavLink
+                                    className={'block'}
+                                    href={route('data-darah')}
+                                >
+                                    Stok Darah
+                                </NavLink>
+                                <NavLink
+                                    className={'block'}
+                                    href={route('data-darah-masuk')}
+                                >
+                                    Darah Masuk
+                                </NavLink>
+                                <NavLink
+                                    className={'block'}
+                                    href={route('data-darah-keluar')}
+                                >
+                                    Darah Keluar
+                                </NavLink>
+                            </Disclosure.Panel>
+                        </>
+                    )}
+                </Disclosure>
                 <NavLink className={'block'} href={route('admin-event-donor')}>
                     Data Event Donor
                 </NavLink>
-                <NavLink className={'block'} href={route('proses-donor')}>
-                    Proses Registrasi Donor
-                </NavLink>
+
                 {/* <NavLink className={'block'} href={route('admin-data-pendonor')}>
                     Permintaan Darah
                 </NavLink> */}
-                <NavLink className={'block'} href={route('admin-data-pendonor')}>
+                <NavLink
+                    className={'block'}
+                    href={route('admin-data-pendonor')}
+                >
                     Nama Pendonor
                 </NavLink>
-                <NavLink className={'block'} href={route('data-darah')}>
-                    Data Darah
+                <NavLink
+                    className={'block'}
+                    href={route('admin-data-pendonor')}
+                >
+                    User
                 </NavLink>
                 {/* <NavLink className={'block'} href={route('home')}>
                     History Registrasi Donor

@@ -2,7 +2,14 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import Card from './Card';
 
-export default function Modal({ className, headerTitle, children, trigger, closeModal, size }) {
+export default function Modal({
+    className,
+    headerTitle,
+    children,
+    trigger,
+    closeModal,
+    size,
+}) {
     return (
         <div
             ref={trigger}
@@ -20,7 +27,12 @@ export default function Modal({ className, headerTitle, children, trigger, close
                 <Card className={className}>
                     <Card.CardHeader>
                         <div className=''>{headerTitle}</div>
-                        <div className='hover:cursor-pointer hover:bg-slate-400 hover:p-2 rounded-lg' onClick={() => closeModal()}>X</div>
+                        <div
+                            className='hover:cursor-pointer hover:bg-slate-400 hover:p-2 rounded-lg'
+                            onClick={() => closeModal()}
+                        >
+                            X
+                        </div>
                     </Card.CardHeader>
                     <div className='px-4 py-2.5'>{children}</div>
                 </Card>

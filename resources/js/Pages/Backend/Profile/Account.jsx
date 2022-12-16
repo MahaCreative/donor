@@ -1,5 +1,6 @@
 import { useForm } from '@inertiajs/inertia-react';
 import React from 'react';
+import Button from '../../../Components/Button';
 import Input from '../../../Components/Input';
 
 export default function Account({ user }) {

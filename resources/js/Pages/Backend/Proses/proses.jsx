@@ -12,8 +12,8 @@ export default function proses(registrasi) {
             <Breadcrumb active={route().current('admin/registrasi-donor')}>
                 Registrasi Donor
             </Breadcrumb>
-            <div className='flex gap-x-3'>
-                <div className='w-[70%]'>
+            <div className='flex flex-col md:flex-row gap-x-3'>
+                <div className='md:w-[70%] w-[100%]'>
                     <div className='flex flex-col md:flex-row  justify-between md:items-center text-white my-3 px-6'>
                         <p>Kode Registrasi :{registrasi[1].kode_registrasi}</p>
                         <p>Tanggal Registrasi:{registrasi[1].created_at}</p>

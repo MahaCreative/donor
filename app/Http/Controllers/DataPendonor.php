@@ -35,16 +35,16 @@ class DataPendonor extends Controller
         $pendonor = [];
 
         if ($req->search == '') {
-            $pendonor = $this->queryDb()->paginate($req->perpage ? $req->perpage : 10);
+            $pendonor = $this->queryDb()->get();
         } else {
             $pendonor = $this->queryDb()->where('pendonors.nama', 'like', '%' . $req->search . '%')
 
-                ->paginate($req->perpage ? $req->perpage : 10);
+                ->get();
         }
         // $count = DB::table('registrasi_donors')->select(DB::raw('jenis_donor as jenis'), 
         // DB::raw('count(jenis_donor) as total'))->groupBy(DB::raw('jenis_donor'))->get();
-
-        return inertia('Backend/DataPendonor/Index', ['pendonors' => $pendonor]);
+        $req->session()->put('cetak', $pendonor);
+        return inertia('Backend/DataPendonor/Index', ['pendonor' => $pendonor]);
         // return inertia('Backend/EventDonor/EventDonor', compact('event'));
     }
     public function getData($id)

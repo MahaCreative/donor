@@ -1,20 +1,20 @@
 import { useForm, usePage } from '@inertiajs/inertia-react';
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import Button from '../../../Components/Button';
 import Input from '../../../Components/Input';
 
 export default function Update({ model }) {
     const { auth } = usePage().props;
-    console.log(model.tekanan_darah)
+    console.log(model.tekanan_darah);
     const { data, setData, errors, patch, reset } = useForm({
         model_id: model.id,
-        petugas: auth.user.name,
+        petugas: model.nama_petugas,
         jumlah_darah: model.jumlah_darah,
         tekanan_darah: model.tekanan_darah,
         status: model.status,
         keterangan: model.keterangan,
     });
-    
+
     const onChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     };
@@ -25,13 +25,13 @@ export default function Update({ model }) {
         setData({
             ...data,
             model_id: model.id,
-            petugas: auth.user.name,
+            petugas: model.nama_petugas,
             jumlah_darah: model.jumlah_darah,
             tekanan_darah: model.tekanan_darah,
             status: model.status,
             keterangan: model.keterangan,
-        })
-    }, [model])
+        });
+    }, [model]);
     return (
         <div className='w-full'>
             <div className='flex flex-col md:flex-row  justify-between md:items-center text-white my-3'>
@@ -41,7 +41,7 @@ export default function Update({ model }) {
                 <p className='text-white'>Petugas Yang Menangani: </p>
                 <Input
                     onChange={onChange}
-                    defaultValue={auth.user.name}
+                    defaultValue={data.petugas}
                     placeholder='Petugas'
                     name='petugas'
                 />

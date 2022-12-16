@@ -82,15 +82,15 @@ export default function DataDarah({ darah }) {
             </Breadcrumb>
             <div className='flex justify-between py-1.5 border-b border-dashed border-white/30 items-center'>
                 <div className='text-white flex gap-x-3 items-center'>
-                    <Button
+                    {/* <Button
                         onClick={() => setOpen(!open)}
                         className={'bg-blue-600 hover:bg-slate-800'}
                     >
                         Tambah Event Donor
-                    </Button>
+                    </Button> */}
                 </div>
                 <div className='w-1/5'>
-                    <Input className='bg-gray-700' placeholder='Search...' />
+                    {/* <Input className='bg-gray-700' placeholder='Search...' /> */}
                 </div>
             </div>
             <div>
@@ -102,14 +102,14 @@ export default function DataDarah({ darah }) {
                     >
                         <Table.Th>Golongan Darah</Table.Th>
                         <Table.Th>Stok</Table.Th>
-                        <Table.Th className={'text-right'}>Aksi</Table.Th>
+                        {/* <Table.Th className={'text-right'}>Aksi</Table.Th> */}
                     </Table.Thead>
                     <Table.Tbody>
                         {darah.map((item, id) => (
                             <tr>
                                 <Table.Td>{item.golongan_darah}</Table.Td>
-                                <Table.Td>2</Table.Td>
-                                <Table.Td className='text-right'>
+                                <Table.Td>{ item.stok.stok}</Table.Td>
+                                {/* <Table.Td className='text-right'>
                                     <Table.Dropdown>
                                         <Menu>
                                             <Table.DropdownItem>
@@ -117,7 +117,7 @@ export default function DataDarah({ darah }) {
                                             </Table.DropdownItem>
                                         </Menu>
                                     </Table.Dropdown>
-                                </Table.Td>
+                                </Table.Td> */}
                             </tr>
                         ))}
                     </Table.Tbody>

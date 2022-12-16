@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegistrasiDonorController as AuthRegistrasiDonorController;
+use App\Http\Controllers\Cetak;
 use App\Http\Controllers\DarahController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DataPendonor;
@@ -38,45 +39,56 @@ Route::middleware('auth')->group(function () {
     Route::get('email/verify', [EmailVerificationRequestController::class, 'email_verify'])->name('verification.notice');
     Route::get('email/verification-notification', [EmailVerificationRequestController::class, 'resend_email'])->name('resend')->middleware('throttle:6,1');
 
-    Route::get('dashboard', DashboardController::class)->name('dashboard');
-    Route::get('registrasi-donor', [RegistrasiDonorController::class, 'index'])->name('registrasi-donor');
-    Route::post('check-registrasi-donor', [RegistrasiDonorController::class, 'check'])->name('check-registrasi-donor');
-    Route::post('registrasi-donor', [RegistrasiDonorController::class, 'store']);
+    Route::middleware('isProfile')->group(function () {
+        Route::get('dashboard', DashboardController::class)->name('dashboard');
+        Route::get('registrasi-donor', [RegistrasiDonorController::class, 'index'])->name('registrasi-donor');
+        Route::post('check-registrasi-donor', [RegistrasiDonorController::class, 'check'])->name('check-registrasi-donor');
+        Route::post('registrasi-donor', [RegistrasiDonorController::class, 'store']);
 
 
-    Route::get('admin/data-registrasi-donor', [AuthRegistrasiDonorController::class, 'index'])->name('admin-registrasi-donor');
-    Route::post('admin/data-registrasi-donor', [AuthRegistrasiDonorController::class, 'store']);
-    Route::put('admin/data-registrasi-donor/{id}', [AuthRegistrasiDonorController::class, 'update'])->name('admin-registrasi-donor-update');
-    Route::delete('admin/data-registrasi-donor/{kode}', [AuthRegistrasiDonorController::class, 'delete'])->name('admin-registrasi-donor-delete');
+        Route::get('admin/data-registrasi-donor', [AuthRegistrasiDonorController::class, 'index'])->name('admin-registrasi-donor');
+        Route::post('admin/data-registrasi-donor', [AuthRegistrasiDonorController::class, 'store']);
+        Route::put('admin/data-registrasi-donor/{id}', [AuthRegistrasiDonorController::class, 'update'])->name('admin-registrasi-donor-update');
+        Route::delete('admin/data-registrasi-donor/{kode}', [AuthRegistrasiDonorController::class, 'delete'])->name('admin-registrasi-donor-delete');
+        // Route::get('admin/data-registrasi-donor/cetak', [AuthRegistrasiDonorController::class, 'cetak'])->name('admin-registrasi-donor-cetak');
 
-    Route::get('admin/proses-registrasi-donor', [ProsesDonorController::class, 'index'])->name('proses-donor');
-    Route::get('admin/proses-registrasi/{kd_registrasi}', [ProsesDonorController::class, 'proses'])->name('proses-registrasi');
-    Route::post('admin/proses-registrasi', [ProsesDonorController::class, 'store'])->name('store-proses-registrasi');
-    Route::patch('admin/update-proses-registrasi/{id}', [ProsesDonorController::class, 'update'])->name('update-proses-registrasi');
-    Route::delete('admin/delete-proses-registrasi/{id}', [ProsesDonorController::class, 'delete'])->name('delete-proses-registrasi');
+        Route::get('admin/proses-registrasi-donor', [ProsesDonorController::class, 'index'])->name('proses-donor');
+        Route::get('admin/proses-registrasi/{kd_registrasi}', [ProsesDonorController::class, 'proses'])->name('proses-registrasi');
+        Route::post('admin/proses-registrasi', [ProsesDonorController::class, 'store'])->name('store-proses-registrasi');
+        Route::patch('admin/update-proses-registrasi/{id}', [ProsesDonorController::class, 'update'])->name('update-proses-registrasi');
+        Route::delete('admin/delete-proses-registrasi/{id}', [ProsesDonorController::class, 'delete'])->name('delete-proses-registrasi');
 
 
 
-    Route::get('admin/event-donor', [EvenDonorController::class, 'index'])->name('admin-event-donor');
-    Route::post('admin/event-donor', [EvenDonorController::class, 'store']);
-    Route::put('admin/event-donor/update/{id}', [EvenDonorController::class, 'update'])->name('admin-event-donor-update');
-    Route::delete('admin/event-donor/{id}', [EvenDonorController::class, 'delete'])->name('admin-event-donor-delete');
+        Route::get('admin/event-donor', [EvenDonorController::class, 'index'])->name('admin-event-donor');
+        Route::post('admin/event-donor', [EvenDonorController::class, 'store']);
+        Route::put('admin/event-donor/update/{id}', [EvenDonorController::class, 'update'])->name('admin-event-donor-update');
+        Route::delete('admin/event-donor/{id}', [EvenDonorController::class, 'delete'])->name('admin-event-donor-delete');
 
-    Route::get('admin/data-pendonor', [DataPendonor::class, 'index'])->name('admin-data-pendonor');
-    Route::get('admin/data-pendonor/{id}', [DataPendonor::class, 'getData'])->name('admin-get-data-pendonor');
+        Route::get('admin/data-pendonor', [DataPendonor::class, 'index'])->name('admin-data-pendonor');
+        Route::get('admin/data-pendonor/{id}', [DataPendonor::class, 'getData'])->name('admin-get-data-pendonor');
 
-    // Darah 
-    Route::get('admin/data-darah', [DarahController::class, 'index'])->name('data-darah');
+        // Darah 
+        Route::get('admin/data-darah', [DarahController::class, 'index'])->name('data-darah');
+        Route::get('admin/data-darah-masuk', [DarahController::class, 'darahmasuk'])->name('data-darah-masuk');
+        Route::get('admin/data-darah-keluar', [DarahController::class, 'darahkeluar'])->name('data-darah-keluar');
 
-    // Permintaan Darah
-    Route::get('admin/permintaan-darah', [PermintaanDarahController::class, 'index'])->name('permintaan-darah');
-    Route::post('admin/permintaan-darah', [PermintaanDarahController::class, 'store']);
-    Route::put('admin/permintaan-darah/{id}', [PermintaanDarahController::class, 'update'])->name('permintaan-darah-update');
-    Route::delete('admin/permintaan-darah/{id}', [PermintaanDarahController::class, 'delete'])->name('permintaan-darah-delete');
-    Route::get('admin/permintaan-darah/search', [PermintaanDarahController::class, 'search'])->name('permintaan-darah-search');
+        // Permintaan Darah
+        Route::get('admin/permintaan-darah', [PermintaanDarahController::class, 'index'])->name('permintaan-darah');
+        Route::post('admin/permintaan-darah', [PermintaanDarahController::class, 'store']);
+        Route::put('admin/permintaan-darah/{id}', [PermintaanDarahController::class, 'update'])->name('permintaan-darah-update');
+        Route::delete('admin/permintaan-darah/{id}', [PermintaanDarahController::class, 'delete'])->name('permintaan-darah-delete');
+        Route::post('admin/permintaan-darah/proses-permintaan', [PermintaanDarahController::class, 'proses_permintaan'])->name('permintaan-darah-proses');
 
-    // Proses Permintaan Darah
-
+        // Proses Permintaan Darah
+        Route::get('cetak-registrasi', [Cetak::class, 'registrasi'])->name('cetak-registrasi');
+        Route::get('cetak-proses-registrasi', [Cetak::class, 'prosesRegistrasi'])->name('cetak-proses-registrasi');
+        Route::get('cetak-permintaan-darah', [Cetak::class, 'permintaan_darah'])->name('cetak-permintaan-darah');
+        Route::get('cetak-proses-permintaan-darah', [Cetak::class, 'proses_permintaan_darah'])->name('cetak-proses-permintaan-darah');
+        Route::get('cetak-pendonor', [Cetak::class, 'pendonor'])->name('cetak-pendonor');
+        Route::get('cetak-darah-masuk', [Cetak::class, 'darahmasuk'])->name('cetak-darah-masuk');
+        Route::get('cetak-darah-keluar', [Cetak::class, 'darahkeluar'])->name('cetak-darah-keluar');
+    });
 
     // Profiles
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');

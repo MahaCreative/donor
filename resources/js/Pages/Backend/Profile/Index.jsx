@@ -3,6 +3,7 @@ import Backend from '../../../Layouts/Backend';
 import Breadcrumb from '../../../Components/Auth/Breadcrumb';
 import Card from '../../../Components/Guest/Card';
 import Tabs from '../../../Components/Tabs';
+import Account from './Account'
 import Profile from './Profile';
 export default function Index({ user, golDar }) {
     return (
@@ -42,7 +43,7 @@ export default function Index({ user, golDar }) {
                                         tidak ingin mengganti name dan email
                                         anda!
                                     </p>
-                                    {/* <Account user={user} /> */}
+                                    <Account user={user} />
                                 </Tabs.TabPanel>
                                 {/* Profiles */}
                                 <Tabs.TabPanel>

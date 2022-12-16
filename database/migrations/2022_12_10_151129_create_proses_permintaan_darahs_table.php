@@ -16,8 +16,8 @@ class CreateProsesPermintaanDarahsTable extends Migration
         Schema::create('proses_permintaan_darahs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('petugas_id');
-            $table->foreignId('kode_proses_permintaan');
-            $table->foreignId('pendonor_id');
+            $table->string('kode_proses_permintaan');
+            $table->foreignId('permintaan_darah_id');
             $table->foreignId('gol_darah_id');
             $table->timestamps();
         });

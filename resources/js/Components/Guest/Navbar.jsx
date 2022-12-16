@@ -40,7 +40,10 @@ export default function Navbar() {
                         </Link>
                         <div className='flex items-center justify-between'>
                             <div>
-                                <NavLink active={route().current('home')} href='/'>
+                                <NavLink
+                                    active={route().current('home')}
+                                    href='/'
+                                >
                                     Beranda
                                 </NavLink>
                                 <NavLink
@@ -50,7 +53,8 @@ export default function Navbar() {
                                     Syarat Donor
                                 </NavLink>
 
-                                <NavLink href={route('event-donor')}
+                                <NavLink
+                                    href={route('event-donor')}
                                     active={route().current('event-donor')}
                                 >
                                     Even Donor
@@ -79,7 +83,7 @@ export default function Navbar() {
                                         </DropdownMenu>
                                     </NavLink>
                                 ) : (
-                                   ''
+                                    ''
                                 )}
                             </div>
                         </div>

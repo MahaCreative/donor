@@ -22,7 +22,7 @@ export default function Create({ registrasi }) {
         post(route('store-proses-registrasi'));
     };
     return (
-        <div className='w-[30%]'>
+        <div className='md:w-[30%] w-[100%] h-screen bg-slate-800 px-3'>
             <div className='flex flex-col md:flex-row  justify-between md:items-center text-white my-3'>
                 <p>Masukkan Keterangan</p>
             </div>

@@ -2,8 +2,13 @@
 
 namespace Database\Seeders;
 
+use App\Models\Pendonor;
 use App\Models\Profile;
+use App\Models\ProsesPermintaanDarah;
+use App\Models\ProsesRegistrasiDonor;
+use App\Models\RegistrasiDonor;
 use App\Models\User;
+use Database\Factories\RegistrasiFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,11 +29,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Profile::factory(1)->create();
+        ProsesRegistrasiDonor::factory(500)->create();
+        ProsesPermintaanDarah::factory(200)->create();
         $this->call([
             RoleSeeder::class,
             GolonganDarahSeeder::class,
-            StokDarahSeeder::class
+            StokDarahSeeder::class,
+
         ]);
+
+        Pendonor::factory(30)->create();
         $user = User::find(1);
         $user->assignRole('guest');
     }

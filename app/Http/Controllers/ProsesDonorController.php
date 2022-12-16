@@ -5,33 +5,75 @@ namespace App\Http\Controllers;
 use App\Models\ProsesRegistrasiDonor;
 use App\Models\RegistrasiDonor;
 use App\Models\StockDarah;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProsesDonorController extends Controller
 {
+    public function query()
+    {
+        return ProsesRegistrasiDonor::join('users', 'users.id', 'proses_registrasi_donors.petugas_id')
+            ->join('profiles', 'profiles.user_id', 'users.id')
+            ->join('registrasi_donors', 'proses_registrasi_donors.registrasi_donor_id', 'registrasi_donors.id')
+            ->join('pendonors', 'pendonors.id', 'registrasi_donors.pendonor_id')
+            ->join('golongan_darahs', 'registrasi_donors.golongan_darah', 'golongan_darahs.id')
+            ->select(
+                'profiles.nama as nama_petugas',
+                'registrasi_donors.kode_registrasi',
+                'proses_registrasi_donors.*',
+                'pendonors.nama as nama_pendonor',
+                'golongan_darahs.golongan_darah'
+            );
+    }
     public function index(Request $req)
     {
         $dataproses = [];
-        if ($req->q) {
-            $dataproses = ProsesRegistrasiDonor::with(['petugas' => function ($quer) {
-                $quer->with('profile')->first();
-            }, 'registrasi_donor' => function ($quer) {
-                $quer->with(['pendonor', 'user' => function ($quer) {
-                    $quer->with('profile')->first();
-                }])->first();
-            }])->where('status', $req->q)->latest()->get();
+        $startDate =  Carbon::now()->startOfMonth()->format('Y-m-d');
+        $endDate = Carbon::now()->endOfMonth()->format('Y-m-d');
+        // dd($endDate);
+        $status = $req->q;
+        $search = $req->search;
+        $dari_tanggal = $req->dari_tanggal ? $req->dari_tanggal : $startDate;
+        $sampai_tanggal = $req->sampai_tanggal ? $req->sampai_tanggal : $endDate;
+        if ($req->q != null and $req->search == null) {
+            // dd($sampai_tanggal);
+            $dataproses = $this->query()
+                // ->where('proses_registrasi_donors.created_at', '>=', $dari_tanggal)
+                // ->where('proses_registrasi_donors.created_at', '<=', $sampai_tanggal)
+                ->where('proses_registrasi_donors.status', $status)
+                ->get();
+        } else if ($req->q == null and $req->search !== null) {
+            $dataproses = $this->query()
+                ->where('pendonors.nama', 'like', '%' . $search . '%')
+                ->orWhere('golongan_darahs.golongan_darah', 'like', '%' . $search . '%')
+                ->orWhere('profiles.nama', 'like', '%' . $search . '%')
+                ->orderByDesc('proses_registrasi_donors.created_at')
+                // ->where('proses_registrasi_donors.created_at', '>=', $dari_tanggal)
+                // ->where('proses_registrasi_donors.created_at', '<=', $sampai_tanggal)
+                ->get();
+        } else if ($req->q !== null and $req->search !== null) {
+            $dataproses = $this->query()
+                ->where([['pendonors.nama', 'like', '%' . $search . '%'], ['proses_registrasi_donors.status', $status]])
+                ->orWhere([['golongan_darahs.golongan_darah', 'like', '%' . $search . '%'], ['proses_registrasi_donors.status', $status]])
+                ->orWhere([['profiles.nama', 'like', '%' . $search . '%'], ['proses_registrasi_donors.status', $status]])
+                // ->where('proses_registrasi_donors.created_at', '>=', $dari_tanggal)
+                // ->where('proses_registrasi_donors.created_at', '<=', $sampai_tanggal)
+                ->orderByDesc('proses_registrasi_donors.created_at')
+                ->get();
         } else {
-            $dataproses = ProsesRegistrasiDonor::with(['petugas' => function ($quer) {
-                $quer->with('profile')->first();
-            }, 'registrasi_donor' => function ($quer) {
-                $quer->with(['pendonor', 'user' => function ($quer) {
-                    $quer->with('profile')->first();
-                }])->first();
-            }])->latest()->get();
+
+            $dataproses = $this->query()
+                ->where('proses_registrasi_donors.created_at', '>=', $dari_tanggal)
+                ->where('proses_registrasi_donors.created_at', '<=', $sampai_tanggal)
+                ->orderByDesc('proses_registrasi_donors.created_at')
+                ->get();
         }
+
+
         $berhasil = ProsesRegistrasiDonor::where('status', 'berhasil')->count();
         $gagal = ProsesRegistrasiDonor::where('status', 'gagal')->count();
-        return inertia('Backend/Proses/index', compact('dataproses', 'berhasil', 'gagal'));
+        $req->session()->put('cetak', $dataproses);
+        return inertia('Backend/Proses/index', compact('dataproses', 'berhasil', 'gagal', 'endDate', 'startDate'));
     }
 
     public function proses($kd_registrasi)
@@ -77,7 +119,7 @@ class ProsesDonorController extends Controller
         ]);
         // dd($darah);
         // dd($proses->registrasi_donor);
-        return redirect()->back()->with([
+        return redirect()->route('proses-donor')->with([
             'type' => 'success',
             'message' => 'Berhasil Menambah Data'
         ]);
@@ -125,7 +167,9 @@ class ProsesDonorController extends Controller
             ->update(
                 ['stok' => $proses->registrasi_donor->darah->stok->stok - $proses->jumlah_darah]
             );
-
+        $proses->registrasi_donor()->update([
+            'status_donor' => 'verifikasi'
+        ]);
 
         $proses->delete();
         return redirect()->back()->with([

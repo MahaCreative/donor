@@ -4,9 +4,9 @@ import Button from '../../../Components/Button';
 import Input from '../../../Components/Input';
 
 export default function Update({ golDar, model }) {
-    console.log(model);
+    // console.log(model);
     const { data, setData, errors, put, reset } = useForm({
-        model_id:'',
+        model_id: '',
         email: '',
         nama: '',
         tempat_lahir: '',
@@ -27,36 +27,40 @@ export default function Update({ golDar, model }) {
         setData({
             ...data,
             model_id: model.id,
-            email: model.pendonor ? model.pendonor.email : '',
-            nama: model.pendonor ? model.pendonor.nama : '',
-            tempat_lahir: model.pendonor ? model.pendonor.tempat_lahir : '',
-            tanggal_lahir: model.pendonor ? model.pendonor.tanggal_lahir : '',
-            telp: model.pendonor ? model.pendonor.telp : '',
-            alamat: model.pendonor ? model.pendonor.alamat : '',
-            jenis_kelamin: model.pendonor ? model.pendonor.jenis_kelamin : '',
-            berat_badan: model.pendonor ? model.pendonor.berat_badan : '',
-            tinggi_badan: model.pendonor ? model.pendonor.tinggi_badan : '',
-            gol_darah: model.pendonor ? model.pendonor.gol_darah : '',
-            pekerjaan: model.pendonor ? model.pendonor.pekerjaan : '',
-            riwayat_penyakit: model.pendonor ? model.pendonor.riwayat_penyakit : '',
+            email: model.email,
+            nama: model.nama,
+            tempat_lahir: model.tempat_lahir,
+            tanggal_lahir: model.tanggal_lahir,
+            telp: model.telp,
+            alamat: model.alamat,
+            jenis_kelamin: model.jenis_kelamin,
+            berat_badan: model.berat_badan,
+            tinggi_badan: model.tinggi_badan,
+            gol_darah: model.gol_darah,
+            pekerjaan: model.pekerjaan,
+            riwayat_penyakit: model.riwayat_penyakit,
             tanggal_donor: model.tanggal_donor_darah,
             jam_donor: model.jam_donor_darah,
-            jenis_donor: model.jenis_donor ,
-        })
-    }, [model])
+            jenis_donor: model.jenis_donor,
+        });
+    }, [model]);
     const onChange = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
     };
 
     const submitHandler = () => {
+        console.log('ayoloh kenapa bis');
         put(route('admin-registrasi-donor-update', data.model_id));
     };
 
     return (
         <form action='' className='px-3'>
-            <div className='flex flex-col gap-y-3 px-3 py-3'>
-                <div className='flex flex-col gap-y-3'>
+            <div className='flex flex-col gap-y-1 px-3 py-3'>
+                <div className='flex flex-col gap-y-1'>
                     <div>
+                        <label htmlFor='' className='text-white'>
+                            Nama Lengkap
+                        </label>
                         <Input
                             onChange={onChange}
                             placeholder='Nama Lengkap'
@@ -66,6 +70,9 @@ export default function Update({ golDar, model }) {
                         {errors && <Input.Error errors={errors.nama} />}
                     </div>
                     <div>
+                        <label htmlFor='' className='text-white'>
+                            Email
+                        </label>
                         <Input
                             onChange={onChange}
                             type='email'
@@ -75,8 +82,11 @@ export default function Update({ golDar, model }) {
                         />
                         {errors && <Input.Error errors={errors.email} />}
                     </div>
-                    <div className='flex flex-col md:flex-row gap-2'>
+                    <div className='flex flex-col md:flex-row gap-1'>
                         <div>
+                            <label htmlFor='' className='text-white'>
+                                Tempat Lahir
+                            </label>
                             <Input
                                 onChange={onChange}
                                 placeholder='Tempat Lahir'
@@ -88,6 +98,9 @@ export default function Update({ golDar, model }) {
                             )}
                         </div>
                         <div>
+                            <label htmlFor='' className='text-white'>
+                                Tanggal Lahir
+                            </label>
                             <Input
                                 onChange={onChange}
                                 type='date'
@@ -100,6 +113,9 @@ export default function Update({ golDar, model }) {
                             )}
                         </div>
                         <div>
+                            <label htmlFor='' className='text-white'>
+                                Jenis Kelamin
+                            </label>
                             <select
                                 onChange={onChange}
                                 className='w-full py-1 px-4 outline-none rounded-md shadow-md text-gray-900 border border-dashed border-gray-900 placeholder:text-gray-900 focus:ring focus:ring-gray-700/50 focus:ring-offset-2 focus:shadow-md accent-blue-600'
@@ -119,6 +135,9 @@ export default function Update({ golDar, model }) {
                             )}
                         </div>
                         <div className='w-full'>
+                            <label htmlFor='' className='text-white'>
+                                Telp
+                            </label>
                             <Input
                                 onChange={onChange}
                                 placeholder='Telp'
@@ -130,6 +149,9 @@ export default function Update({ golDar, model }) {
                     </div>
 
                     <div>
+                        <label htmlFor='' className='text-white'>
+                            Alamat
+                        </label>
                         <textarea
                             value={data.alamat}
                             onChange={onChange}
@@ -140,9 +162,12 @@ export default function Update({ golDar, model }) {
                         {errors && <Input.Error errors={errors.alamat} />}
                     </div>
 
-                    <div className='flex flex-col gap-y-3'>
-                        <div className='flex flex-col md:flex-row gap-2'>
+                    <div className='flex flex-col gap-y-1'>
+                        <div className='flex flex-col md:flex-row gap-1'>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Pekerjaan
+                                </label>
                                 <Input
                                     value={data.pekerjaan}
                                     onChange={onChange}
@@ -154,6 +179,9 @@ export default function Update({ golDar, model }) {
                                 )}
                             </div>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Riwayat Penyakit
+                                </label>
                                 <Input
                                     value={data.riwayat_penyakit}
                                     onChange={onChange}
@@ -167,6 +195,9 @@ export default function Update({ golDar, model }) {
                                 )}
                             </div>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Berat Badan
+                                </label>
                                 <Input
                                     value={data.berat_badan}
                                     onChange={onChange}
@@ -179,6 +210,9 @@ export default function Update({ golDar, model }) {
                                 )}
                             </div>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Tinggi Badan
+                                </label>
                                 <Input
                                     value={data.tinggi_badan}
                                     onChange={onChange}
@@ -192,6 +226,9 @@ export default function Update({ golDar, model }) {
                             </div>
                         </div>
                         <div>
+                            <label htmlFor='' className='text-white'>
+                                Golongan Darah
+                            </label>
                             <select
                                 onChange={onChange}
                                 className='w-full py-1 px-4 outline-none rounded-md shadow-md text-gray-900 border border-dashed border-gray-900 placeholder:text-gray-900 focus:ring focus:ring-gray-700/50 focus:ring-offset-2 focus:shadow-md accent-blue-600'
@@ -214,8 +251,11 @@ export default function Update({ golDar, model }) {
                             )}
                         </div>
                         {/* {errors && (<div className='text-red-600 text-sm italic'>{errors.golongan_darah}</div>)} */}
-                        <div className='flex flex-col md:flex-row gap-2'>
+                        <div className='flex flex-col md:flex-row gap-1'>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Tanggal Request Donor
+                                </label>
                                 <Input
                                     value={data.tanggal_donor}
                                     onChange={onChange}
@@ -230,6 +270,9 @@ export default function Update({ golDar, model }) {
                                 )}
                             </div>
                             <div>
+                                <label htmlFor='' className='text-white'>
+                                    Waktu Request Donor
+                                </label>
                                 <Input
                                     onChange={onChange}
                                     type='time'
@@ -242,6 +285,9 @@ export default function Update({ golDar, model }) {
                                 )}
                             </div>
                             <div className='w-full'>
+                                <label htmlFor='' className='text-white'>
+                                    Jenis Donor Darah
+                                </label>
                                 <select
                                     onChange={onChange}
                                     className='w-full py-1 px-4 outline-none rounded-md shadow-md text-gray-900 border border-dashed border-gray-900 placeholder:text-gray-900 focus:ring focus:ring-gray-700/50 focus:ring-offset-2 focus:shadow-md accent-blue-600'

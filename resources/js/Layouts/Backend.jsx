@@ -10,14 +10,11 @@ import NavLink from '../Components/Guest/NavLink';
 
 export default function Backend({ children }) {
     const [open, setOpen] = useState(false);
-    const {auth} = usePage().props
-    const { flash } = usePage().props
+    const { auth } = usePage().props;
+    const { flash } = usePage().props;
     useEffect(() => {
-        flash.type && toast[flash.type](flash.message)
-    })
-
-    const { imbox_pendonor } = usePage().props;
-    console.log(imbox_pendonor);
+        flash.type && toast[flash.type](flash.message);
+    });
 
     return (
         <div className=''>

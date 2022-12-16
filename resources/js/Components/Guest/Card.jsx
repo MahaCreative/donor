@@ -1,9 +1,10 @@
 import clsx from 'clsx';
 import React from 'react';
 
-function Card({ className, children, ...props}) {
+function Card({ className, children, ...props }) {
     return (
-        <div {...props}
+        <div
+            {...props}
             className={clsx(
                 className ? className : 'text-white bg-white/20',
                 'border border-dashed border-gray-700 pb-2 backdrop-blur-sm rounded-lg shadow-md shadow-gray-800/50 overflow-hidden'

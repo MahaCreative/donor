@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProfileFactory extends Factory
+class PendonorFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,17 +14,17 @@ class ProfileFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => 1,
-            'nama' => $this->faker->name(),
-            'tempat_lahir' => $this->faker->sentence(),
+            'email' => $this->faker->email,
+            'nama' => $this->faker->name,
+            'tempat_lahir' => $this->faker->address(),
             'tanggal_lahir' => $this->faker->date(),
             'telp' => $this->faker->phoneNumber(),
             'alamat' => $this->faker->address(),
             'jenis_kelamin' => 'laki-laki',
-            'berat_badan' => rand(30, 50),
-            'tinggi_badan' => rand(145, 189),
-            'gol_darah' => rand(1, 5),
-            'pekerjaan' => 'pelajar/mahasiswa',
+            'berat_badan' => rand(40, 70),
+            'tinggi_badan' => rand(150, 190),
+            'gol_darah' => rand(1, 8),
+            'pekerjaan' => $this->faker->word(),
             'riwayat_penyakit' => 'tidak ada',
         ];
     }
