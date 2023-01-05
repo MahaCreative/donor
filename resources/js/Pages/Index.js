@@ -12,7 +12,7 @@ export default function Index({ event }) {
                 <div className='flex flex-col items-center gap-y-3 text-white px-2 md:px-3 lg:px-8'>
                     <img
                         className='w-[55%] lg:w-[350px]'
-                        src='images/donor.png'
+                        src={'images/donor.png'}
                     />
                     <h1 className='text-center'>
                         Sistem Informasi Pendaftaran Donor Darah Pada Rumah
