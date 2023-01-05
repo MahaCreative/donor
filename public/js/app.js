@@ -11111,7 +11111,7 @@ function Index(_ref) {
         className: "flex flex-col items-center gap-y-3 text-white px-2 md:px-3 lg:px-8",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("img", {
           className: "w-[55%] lg:w-[350px]",
-          src: "/images/donor.png"
+          src: 'donor/images/donor.png'
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("h1", {
           className: "text-center",
           children: ["Sistem Informasi Pendaftaran Donor Darah Pada Rumah Sakit Umum Daerah Mamuju", ' ']
