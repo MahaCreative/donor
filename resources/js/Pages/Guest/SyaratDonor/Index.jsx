@@ -18,28 +18,25 @@ export default function Index() {
                         </p>
                         <div className='flex flex-col gap-y-3 my-6 px-4'>
                             <div className='bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4'>
-                                Kondisi fisik harus dalam keadaan sehat, jasmani
-                                maupun rohani.
+                            Umur minimal 17 tahun. Di usia ini, perkembangan tubuh telah sempurna. Sehingga, mendonorkan darah tidak mengganggu sistem kerja tubuh
                             </div>
                             <div className='bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4'>
-                                Kondisi fisik harus dalam keadaan sehat, jasmani
-                                maupun rohani.
+                            Berat badan minimal 45 kg. Kurang dari itu, pengurangan darah dikhawatirkan akan mengganggu keseimbangan sistem kerja tubuh.
                             </div>
                             <div className='bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4'>
-                                Kondisi fisik harus dalam keadaan sehat, jasmani
-                                maupun rohani.
+                            Temperatur tubuh normal, antara 36,6 - 37,5 derajat Celsius.
                             </div>
                             <div className='bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4'>
-                                Kondisi fisik harus dalam keadaan sehat, jasmani
-                                maupun rohani.
+                            Tekanan darah normal, yaitu sistole 110 - 160 mmHg, diastole 70 - 100 mmHg.
                             </div>
                             <div className='bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4'>
-                                Kondisi fisik harus dalam keadaan sehat, jasmani
-                                maupun rohani.
+                            Denyut nadi teratur, yaitu sekitar 50 - 100 kali/ menit.
                             </div>
                             <div className='bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4'>
-                                Kondisi fisik harus dalam keadaan sehat, jasmani
-                                maupun rohani.
+                            Haemoglobin wanita minimal 12 gram%, pria minimal 13 gram%.
+                            </div>
+                            <div className='bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4'>
+                            Frekuensi donor darah maksimal 5 kali setahun, atau berjarak minimal 3 bulan.
                             </div>
                         </div>
                         <p>

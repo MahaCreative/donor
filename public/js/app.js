@@ -11040,22 +11040,25 @@ function Index() {
             className: "flex flex-col gap-y-3 my-6 px-4",
             children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4",
-              children: "Kondisi fisik harus dalam keadaan sehat, jasmani maupun rohani."
+              children: "Umur minimal 17 tahun. Di usia ini, perkembangan tubuh telah sempurna. Sehingga, mendonorkan darah tidak mengganggu sistem kerja tubuh"
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4",
-              children: "Kondisi fisik harus dalam keadaan sehat, jasmani maupun rohani."
+              children: "Berat badan minimal 45 kg. Kurang dari itu, pengurangan darah dikhawatirkan akan mengganggu keseimbangan sistem kerja tubuh."
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4",
-              children: "Kondisi fisik harus dalam keadaan sehat, jasmani maupun rohani."
+              children: "Temperatur tubuh normal, antara 36,6 - 37,5 derajat Celsius."
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4",
-              children: "Kondisi fisik harus dalam keadaan sehat, jasmani maupun rohani."
+              children: "Tekanan darah normal, yaitu sistole 110 - 160 mmHg, diastole 70 - 100 mmHg."
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4",
-              children: "Kondisi fisik harus dalam keadaan sehat, jasmani maupun rohani."
+              children: "Denyut nadi teratur, yaitu sekitar 50 - 100 kali/ menit."
             }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
               className: "bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4",
-              children: "Kondisi fisik harus dalam keadaan sehat, jasmani maupun rohani."
+              children: "Haemoglobin wanita minimal 12 gram%, pria minimal 13 gram%."
+            }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+              className: "bg-white/20 backdrop-blur-sm rounded-lg shadow-md shadow-gray-400/50 py-2.5 px-4",
+              children: "Frekuensi donor darah maksimal 5 kali setahun, atau berjarak minimal 3 bulan."
             })]
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
             children: "Itulah beberapa syarat umum yang perlu dipenuhi sebelum donor darah. Perlu diketahui, kamu bisa mendonorkan darah maksimal lima kali setahun, dengan jangka waktu minimal 3 bulan. Sebelum donor darah, calon donor dapat mengambil dan menandatangani formulir pendaftaran, lalu menjalani pemeriksaan pendahuluan, seperti kondisi berat badan, HB, golongan darah, dan dilanjutkan dengan pemeriksaan dokter."
