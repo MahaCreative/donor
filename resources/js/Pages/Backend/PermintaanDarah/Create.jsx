@@ -89,7 +89,7 @@ export default function Create({ golDar, onClose }) {
                             type='number'
                             name='jumlah_permintaan'
                             placeholder='Jumlah Permintaan'
-                        />
+                            min={1} max={5}                        />
                         {errors.jumlah_permintaan && (
                             <Input.Error errors={errors.jumlah_permintaan} />
                         )}

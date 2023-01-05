@@ -64,7 +64,7 @@ export default function Navbar() {
                                 </NavLink> */}
                                 {auth.user ? (
                                     <NavLink>
-                                        <DropdownMenu label={auth.user.name}>
+                                        <DropdownMenu label={auth.user.name} className={'text-white'}>
                                             <DropdownMenu.ItemLink
                                                 href={route('dashboard')}
                                             >

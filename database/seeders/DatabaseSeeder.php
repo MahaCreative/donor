@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Profile::factory(1)->create();
-        ProsesRegistrasiDonor::factory(500)->create();
-        ProsesPermintaanDarah::factory(200)->create();
+        ProsesRegistrasiDonor::factory(30)->create();
+        ProsesPermintaanDarah::factory(30)->create();
         $this->call([
             RoleSeeder::class,
             GolonganDarahSeeder::class,

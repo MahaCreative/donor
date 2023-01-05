@@ -5,6 +5,7 @@ import Card from '../../../Components/Guest/Card';
 import Tabs from '../../../Components/Tabs';
 import Account from './Account'
 import Profile from './Profile';
+import Update from './Update';
 export default function Index({ user, golDar }) {
     return (
         <div className='px-3 py-3 min-h-screen'>
@@ -14,7 +15,7 @@ export default function Index({ user, golDar }) {
             <div className='grid grid-cols-3 gap-x-3 py-3 min-h-[100%]'>
                 <div className='col-span-1'>
                     <Card className={'min-h-[100%]'}>
-                        <div className='flex flex-col justify-center items-center w-full'>
+                        <div className='flex text-white flex-col justify-center items-center w-full'>
                             <div className='w-24 h-24 rounded-full flex items-center justify-center border border-dashed border-gray-400/50'>
                                 <img
                                     src='/images/donor.png'
@@ -43,7 +44,7 @@ export default function Index({ user, golDar }) {
                                         tidak ingin mengganti name dan email
                                         anda!
                                     </p>
-                                    <Account user={user} />
+                                    <Update user={user} />
                                 </Tabs.TabPanel>
                                 {/* Profiles */}
                                 <Tabs.TabPanel>

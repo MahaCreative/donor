@@ -19,9 +19,11 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProsesDonorController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\RegistrasiDonorController;
+use App\Http\Controllers\UserController;
 use App\Models\RegistrasiDonor;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use Salman\Mqtt\MqttClass\Mqtt;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,16 +36,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Email Verivication
+Route::get('registrasi-donor', [RegistrasiDonorController::class, 'index'])->name('registrasi-donor');
+Route::post('registrasi-donor', [RegistrasiDonorController::class, 'store']);
+
 Route::middleware('auth')->group(function () {
     Route::get('email/verify/{id}/{hash}', [EmailVerificationRequestController::class, 'index'])->name('verification.verify');
     Route::get('email/verify', [EmailVerificationRequestController::class, 'email_verify'])->name('verification.notice');
     Route::get('email/verification-notification', [EmailVerificationRequestController::class, 'resend_email'])->name('resend')->middleware('throttle:6,1');
 
-    Route::middleware('isProfile')->group(function () {
+    Route::middleware(['isProfile',])->group(function () {
         Route::get('dashboard', DashboardController::class)->name('dashboard');
-        Route::get('registrasi-donor', [RegistrasiDonorController::class, 'index'])->name('registrasi-donor');
         Route::post('check-registrasi-donor', [RegistrasiDonorController::class, 'check'])->name('check-registrasi-donor');
-        Route::post('registrasi-donor', [RegistrasiDonorController::class, 'store']);
+
 
 
         Route::get('admin/data-registrasi-donor', [AuthRegistrasiDonorController::class, 'index'])->name('admin-registrasi-donor');
@@ -88,15 +92,18 @@ Route::middleware('auth')->group(function () {
         Route::get('cetak-pendonor', [Cetak::class, 'pendonor'])->name('cetak-pendonor');
         Route::get('cetak-darah-masuk', [Cetak::class, 'darahmasuk'])->name('cetak-darah-masuk');
         Route::get('cetak-darah-keluar', [Cetak::class, 'darahkeluar'])->name('cetak-darah-keluar');
+
+        Route::get('users', [UserController::class, 'index'])->name('admin-users');
+        Route::put('users-update', [UserController::class, 'update'])->name('admin-users-update');
     });
 
     // Profiles
     Route::get('profile', [ProfileController::class, 'index'])->name('profile');
     Route::post('profile', [ProfileController::class, 'store']);
     Route::put('profile', [ProfileController::class, 'update']);
+    Route::get('register', [RegisterController::class, 'index'])->name('register');
+    Route::post('register', [RegisterController::class, 'store']);
 
-    Route::middleware('signed')->group(function () {
-    });
     Route::get('logout', LogoutController::class)->name('logout');
 });
 
@@ -126,6 +133,15 @@ Route::post('reset-password-store', [ForgotPasswordController::class, 'reset_pas
 Route::middleware('guest')->group(function () {
     Route::get('login', LoginController::class)->name('login');
     Route::post('login', [LoginController::class, 'store']);
-    Route::get('register', [RegisterController::class, 'index'])->name('register');
-    Route::post('register', [RegisterController::class, 'store']);
+});
+Route::get('sent-mqtt', function () {
+    $mqtt = new Mqtt();
+
+    $output = $mqtt->ConnectAndPublish('sentSuhu', 'abg');
+
+    if ($output === true) {
+        return "published";
+    }
+
+    return "Failed";
 });

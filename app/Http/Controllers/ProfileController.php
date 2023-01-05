@@ -29,7 +29,7 @@ class ProfileController extends Controller
             'telp' => 'required|min:12|max:13',
             'alamat' => 'required',
             'jenis_kelamin' => 'required',
-            'golongan_darah' => 'required',
+            // 'golongan_darah' => 'required',
         ]);
         // dd($request->all());
         $profile = Profile::create([
@@ -46,6 +46,10 @@ class ProfileController extends Controller
             'tinggi_badan' => $request->tinggi_badan,
             'riwayat_penyakit' => $request->riwayat_penyakit,
         ]);
+        return redirect()->back()->with([
+            'type' => 'success',
+            'message' => 'Berhasil Menambahkan Data'
+        ]);
     }
 
     public function show()
@@ -60,7 +64,7 @@ class ProfileController extends Controller
             'telp' => 'required|min:12|max:13',
             'alamat' => 'required',
             'jenis_kelamin' => 'required',
-            'golongan_darah' => 'required',
+            // 'golongan_darah' => 'required',
         ]);
         // dd($request->all());
 
@@ -78,6 +82,10 @@ class ProfileController extends Controller
             'berat_badan' => $request->berat_badan,
             'tinggi_badan' => $request->tinggi_badan,
             'riwayat_penyakit' => $request->riwayat_penyakit,
+        ]);
+        return redirect()->back()->with([
+            'type' => 'success',
+            'message' => 'Berhasil Memproses Data'
         ]);
     }
 }

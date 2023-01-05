@@ -40,7 +40,10 @@ class RegistrasiDonorController extends Controller
         $registrasi = [];
         $paginate = $request->paginate;
         // $registrasi = $this->query();
-
+        $cekRegistrasi = RegistrasiDonor::where('status_dilihat', 'belum dilihat')->get();
+        foreach ($cekRegistrasi as $item) {
+            $item->update(['status_dilihat' => 'dilihat']);
+        }
         if ($request->j != null and $request->search == null) {
             if ($request->dari_tanggal or $request->sampai_tanggal) {
                 $registrasi = $this->query()

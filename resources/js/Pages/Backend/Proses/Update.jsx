@@ -56,6 +56,7 @@ export default function Update({ model }) {
                         placeholder='Jumlah Darah'
                         name='jumlah_darah'
                         defaultValue={model.jumlah_darah}
+                        min={1} max={5}
                     />
                     {errors && <Input.Error errors={errors.jumlah_darah} />}
                 </div>

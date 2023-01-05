@@ -16,17 +16,22 @@ class LoginController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'email' => ['required'],
+            'email' => ['required', 'email'],
             'password' => ['required', 'confirmed'],
         ]);
-        if (Auth::attempt($request->only('email', 'password'))) {
+
+        if (Auth::attempt($request->only('email', 'password_confirmation', 'password'))) {
             session()->regenerate();
             return redirect()->route('dashboard')->with([
                 'type' => 'success',
                 'message' => 'Berhasil Login'
             ]);
+        } else {
+            dd('a');
+            return redirect()->route('dashboard')->with([
+                'type' => 'error',
+                'message' => 'Email atau password anda salah'
+            ]);
         }
-
-        throw ValidationException::withMessages(['email' => 'the email credential is not match our record.']);
     }
 }

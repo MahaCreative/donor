@@ -12,6 +12,7 @@ export default function Backend({ children }) {
     const [open, setOpen] = useState(false);
     const { auth } = usePage().props;
     const { flash } = usePage().props;
+    const { imbox_pendonor } = usePage().props;
     useEffect(() => {
         flash.type && toast[flash.type](flash.message);
     });
@@ -69,31 +70,24 @@ export default function Backend({ children }) {
                                     </DropdownMenu.ItemLink>
                                 </DropdownMenu>
                             </NavLink>
-                            {/* <NavLink
+                            <NavLink
                                 className={'text-white  md:inline-block hidden'}
                             >
                                 <DropdownMenu
                                     label={'inbox'}
                                     className='text-white'
                                 >
-                                    <DropdownMenu.ItemLink href='#'>
+                               
+                                    <DropdownMenu.ItemLink href={ route('admin-registrasi-donor')}>
                                         <div className='border border-b border-dashed border-gray-600/50 py-2.5 px-4 relative rounded-lg'>
-                                            <p>Chat</p>
-                                            <div className='absolute top-1 right-2 w-5 h-5 rounded-full bg-red-600 text-white text-sm flex items-center justify-center'>
-                                                {imbox_pendonor.length}
-                                            </div>
-                                        </div>
-                                    </DropdownMenu.ItemLink>
-                                    <DropdownMenu.ItemLink href='#'>
-                                        <div className='border border-b border-dashed border-gray-600/50 py-2.5 px-4 relative rounded-lg'>
-                                            <p>Pengajuan Donor</p>
-                                            <div className='absolute top-1 right-2 w-5 h-5 rounded-full bg-red-600 text-white text-sm flex items-center justify-center'>
+                                            <p>Pengajuan Registrasi Baru</p>
+                                            <div className='absolute top-1 right-0 w-5 h-5 rounded-full bg-red-600 text-white text-sm flex items-center justify-center'>
                                                 {imbox_pendonor.length}
                                             </div>
                                         </div>
                                     </DropdownMenu.ItemLink>
                                 </DropdownMenu>
-                            </NavLink> */}
+                            </NavLink>
                             <NavLink href='/'>Home</NavLink>
                         </div>
                     </div>

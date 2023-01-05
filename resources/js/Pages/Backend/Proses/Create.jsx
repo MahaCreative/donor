@@ -44,6 +44,7 @@ export default function Create({ registrasi }) {
                         type='number'
                         placeholder='Jumlah Darah'
                         name='jumlah_darah'
+                        min={1} max={5}
                     />
                     {errors && <Input.Error errors={errors.jumlah_darah} />}
                 </div>

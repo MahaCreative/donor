@@ -11,6 +11,8 @@ use App\Models\RegistrasiDonor;
 use App\Models\StockDarah;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendEmail;
 
 class PermintaanDarahController extends Controller
 {
@@ -45,27 +47,43 @@ class PermintaanDarahController extends Controller
     }
     public function store(Request $req)
     {
-        $petugasId = $req->user()->id;
-        // dd($petugasId);
-        $countPermintaan = PermintaanDarah::count();
-        $kode = 'PD-' . now()->format('d-m-y') . '-' . $countPermintaan;
-        $req->validate([
-            'gol_darah' => 'required',
-            'nama' => 'required',
-            'tanggal_lahir' => 'required',
-            'jumlah_permintaan' => 'required',
-            'keterangan' => 'required',
-        ]);
-        $permintaan = PermintaanDarah::create([
-            'kode_permintaan' => $kode,
-            'golongan_darah_id' => $req->gol_darah,
-            'nama' => $req->nama,
-            'petugas_id' => $petugasId,
-            'tanggal_lahir' => $req->tanggal_lahir,
-            'jumlah_permintaan' => $req->jumlah_permintaan,
-            'keterangan' => $req->keterangan,
-        ]);
-        return redirect()->back();
+        // Send Email
+
+        $pendonor = Pendonor::where('gol_darah', $req->gol_darah)->get();
+        if ($pendonor) {
+            foreach ($pendonor as $item) {
+                Mail::to($item->email)->send(new SendEmail($req->nama, $req->jumlah_permintaan, $item->nama, $req->keterangan, $req->golongan_darah));
+            }
+            $petugasId = $req->user()->id;
+            // dd($petugasId);
+            $countPermintaan = PermintaanDarah::count();
+            $kode = 'PD-' . now()->format('d-m-y') . '-' . $countPermintaan;
+            $req->validate([
+                'gol_darah' => 'required',
+                'nama' => 'required',
+                'tanggal_lahir' => 'required',
+                'jumlah_permintaan' => 'required',
+                'keterangan' => 'required',
+            ]);
+            $permintaan = PermintaanDarah::create([
+                'kode_permintaan' => $kode,
+                'golongan_darah_id' => $req->gol_darah,
+                'nama' => $req->nama,
+                'petugas_id' => $petugasId,
+                'tanggal_lahir' => $req->tanggal_lahir,
+                'jumlah_permintaan' => $req->jumlah_permintaan,
+                'keterangan' => $req->keterangan,
+            ]);
+            return redirect()->back()->with([
+                'type' => 'success',
+                'message' => 'Berhasil Menambahkan Data'
+            ]);
+        } else {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'message' => 'Gagal menambahkan data, tidak ada pendonor yang memiliki golongan darah yang sama'
+            ]);
+        }
     }
     public function update($id, Request $req)
     {

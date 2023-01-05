@@ -4,9 +4,11 @@ import React, { useEffect, useState } from 'react';
 import NavLink from '../Guest/NavLink';
 import DropdownMenu from '../Guest/DropdownMenu';
 import { ChevronUpIcon } from '@heroicons/react/20/solid';
+import { usePage } from '@inertiajs/inertia-react';
 export default function Sidebar({ open = false, setOpen, label }) {
     const [toggler, setToggler] = useState(false);
-
+    const { auth } = usePage().props
+    
     return (
         <div
             className={clsx(
@@ -134,12 +136,14 @@ export default function Sidebar({ open = false, setOpen, label }) {
                 >
                     Nama Pendonor
                 </NavLink>
-                <NavLink
+                {/* { auth.role} */}
+                {auth.role[0].name == 'super admin'  && (<NavLink
                     className={'block'}
-                    href={route('admin-data-pendonor')}
+                    href={route('admin-users')}
                 >
                     User
-                </NavLink>
+                </NavLink>)}
+                
                 {/* <NavLink className={'block'} href={route('home')}>
                     History Registrasi Donor
                 </NavLink>

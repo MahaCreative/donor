@@ -126,99 +126,8 @@ export default function Profile({ user, golDar }) {
                 </textarea>
                 {errors.alamat && <Input.Error errors={errors.alamat} />}
 
-                {user[0].role.guard_name !== 'super admin' ||
-                user[0].role.guard_name !== 'admin' ? (
-                    <div className='flex flex-col gap-y-3'>
-                        <div className='flex flex-col md:flex-row gap-2'>
-                            <Input
-                                placeholder='Pekerjaan'
-                                name='pekerjaan'
-                                defaultValue={
-                                    user[0].profile
-                                        ? user[0].profile.pekerjaan
-                                        : ''
-                                }
-                                onChange={onChange}
-                            />
-                            {errors.pekerjaan && (
-                                <Input.Error errors={errors.pekerjaan} />
-                            )}
-                            <Input
-                                placeholder='Riwayat Penyakit'
-                                name='riwayat_penyakit'
-                                defaultValue={
-                                    user[0].profile
-                                        ? user[0].profile.riwayat_penyakit
-                                        : ''
-                                }
-                                onChange={onChange}
-                            />
-                            {errors.riwayat_penyakit && (
-                                <Input.Error errors={errors.riwayat_penyakit} />
-                            )}
-                        </div>
-                        <div className='flex flex-col md:flex-row gap-2'>
-                            <Input
-                                placeholder='Berat Badan'
-                                name='berat_badan'
-                                defaultValue={
-                                    user[0].profile
-                                        ? user[0].profile.berat_badan
-                                        : ''
-                                }
-                                onChange={onChange}
-                            />
-                            {errors.berat_badan && (
-                                <Input.Error errors={errors.berat_badan} />
-                            )}
-                            <Input
-                                placeholder='Tinggi Badan'
-                                name='tinggi_badan'
-                                defaultValue={
-                                    user[0].profile
-                                        ? user[0].profile.tinggi_badan
-                                        : ''
-                                }
-                                onChange={onChange}
-                            />
-                            {errors.tinggi_badan && (
-                                <Input.Error errors={errors.tinggi_badan} />
-                            )}
-                        </div>
-
-                        <select
-                            className='w-full py-1 px-4 outline-none rounded-md shadow-md text-gray-900 border border-dashed border-gray-900 placeholder:text-gray-900 focus:ring focus:ring-gray-700/50 focus:ring-offset-2 focus:shadow-md accent-blue-600'
-                            placeholder='Select Golongan Darah'
-                            name='golongan_darah'
-                            onChange={onChange}
-                        >
-                            defaultValue=
-                            {user[0].profile ? (
-                                <option
-                                    value={user[0].profile.gol_darah}
-                                    selected
-                                    disabled
-                                >
-                                    {golongan_darah}
-                                </option>
-                            ) : (
-                                ''
-                            )}
-                            {golDar
-                                ? golDar.map((item) => (
-                                      <option key={item.id} value={item.id}>
-                                          {item.golongan_darah}
-                                      </option>
-                                  ))
-                                : ' '}
-                        </select>
-                        {errors && (
-                            <div className='text-red-600 text-sm italic'>
-                                {errors.golongan_darah}
-                            </div>
-                        )}
-
-                        <div className='flex'>
+               
+                <div className='flex'>
                             <Button
                                 onClick={
                                     user[0].profile
@@ -230,10 +139,6 @@ export default function Profile({ user, golDar }) {
                                 {user[0].profile ? 'Update' : 'submit'}
                             </Button>
                         </div>
-                    </div>
-                ) : (
-                    ''
-                )}
             </div>
         </form>
     );

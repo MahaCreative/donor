@@ -1,16 +1,10 @@
-import { Link, useForm } from '@inertiajs/inertia-react';
-import React, { useEffect } from 'react';
-import Button from '../../Components/Button';
-import Container from '../../Components/Container';
-import Guest from '../../Layouts/Guest';
-import Input from '../../Components/Input';
+import { useForm } from '@inertiajs/inertia-react';
+import React, { useEffect } from 'react'
+import Button from '../../../Components/Button'
+import Input from '../../../Components/Input'
 
-export default function Register() {
-    const submitHandler = (e) => {
-        e.preventDefault();
-        
-        post('register');
-    };
+export default function Create({onClose}) {
+    
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -21,23 +15,19 @@ export default function Register() {
             reset('password');
         };
     }, []);
+    
     const onHandleChange = (event) => {
-        setData(
-            event.target.name,
-            event.target.type === 'checkbox'
-                ? event.target.checked
-                : event.target.value
-        );
+        setData({...data, [event.target.name]:event.target.value} );
+            
     };
-    return (
-        <div>
-            <Container className={'h-screen'}>
-                <div className='w-full flex justify-center'>
-                    <div className='py-2.5 px-4 w-[95%] md:w-1/3 rounded-lg bg-white backdrop-blur-md shadow-md shadow-gray-400/50'>
-                        <h3 className='text-2xl font-semibold text-blue-600 text-center my-3'>
-                            Register
-                        </h3>
-                        <form action=''>
+    const submitHandler = (e) => {
+        
+        post(route('register'));
+    };
+  return (
+      <div>
+          <p className='text-white'>{ data.name}</p>
+          <form action=''>
                             <div className='flex flex-col justify-start gap-y-1'>
                                 <Input
                                     onChange={onHandleChange}
@@ -46,8 +36,8 @@ export default function Register() {
                                     id='name'
                                     name='name'
                                 />
-                                {errors && (
-                                    <Input.Error errors={errors.email} />
+                                {errors.name && (
+                                    <Input.Error errors={errors.name} />
                                 )}
                                 <Input
                                     onChange={onHandleChange}
@@ -56,7 +46,7 @@ export default function Register() {
                                     id='email'
                                     name='email'
                                 />
-                                {errors && (
+                                {errors.email && (
                                     <Input.Error errors={errors.email} />
                                 )}
                                 <Input
@@ -66,7 +56,7 @@ export default function Register() {
                                     id='password'
                                     name='password'
                                 />
-                                {errors && (
+                                {errors.password&& (
                                     <Input.Error errors={errors.password} />
                                 )}
                                 <Input
@@ -90,16 +80,6 @@ export default function Register() {
                                 Register
                             </Button>
                         </form>
-                        <Link
-                            className='text-blue-600 underline hover:text-blue-900'
-                            href='login'
-                        >
-                            Already have an account?
-                        </Link>
-                    </div>
-                </div>
-            </Container>
-        </div>
-    );
+    </div>
+  )
 }
-Register.layout = (page) => <Guest children={page} />;
