@@ -82,37 +82,15 @@ export default function ResponsiveNavlink() {
                 </button>
 
                 <div className='flex flex-col items-center gap-y-6 py-16 '>
-                    <NavLink active={route().current('')} href='/'>
+                    <NavLink href={route('')} active={route().current('')}>
                         Beranda
                     </NavLink>
-                    <NavLink active={route().current('syarat-donor')}>
+                    <NavLink href={route('syarat-donor')} active={route().current('syarat-donor')}>
                         Syarat Donor
                     </NavLink>
-                    <NavLink active={route().current('pendonor')}>
-                        Pendonor
-                    </NavLink>
-                    <NavLink active={route().current('event-donor')}>
+                    <NavLink href={route('event-donor')} active={route().current('event-donor')}>
                         Even Donor
                     </NavLink>
-                    <NavLink active={route().current('donor')}>Donor</NavLink>
-                    {auth.user ? (
-                        ''
-                    ) : (
-                        <>
-                            <NavLink
-                                active={route().current('register')}
-                                href={'register'}
-                            >
-                                Register
-                            </NavLink>
-                            <NavLink
-                                active={route().current('login')}
-                                href={'login'}
-                            >
-                                Login
-                            </NavLink>
-                        </>
-                    )}
                 </div>
             </div>
         </div>
