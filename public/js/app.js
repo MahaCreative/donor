@@ -10281,7 +10281,7 @@ function index(_ref) {
   };
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_Components_Container__WEBPACK_IMPORTED_MODULE_5__["default"], {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
-      className: "w-full",
+      className: "w-full min-h-screen",
       children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
         className: "border-b border-dashed border-white text-center text-white",
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("h1", {
@@ -10293,7 +10293,7 @@ function index(_ref) {
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(react_slideshow_image__WEBPACK_IMPORTED_MODULE_3__.Slide, {
         autoplay: true,
         indicators: indicators,
-        children: event.map(function (slideImage, index) {
+        children: event.length === 0 ? event.map(function (slideImage, index) {
           return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
             className: "each-fade",
             children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
@@ -10316,6 +10316,8 @@ function index(_ref) {
               })]
             })
           }, index);
+        }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("p", {
+          children: "Event Belum Tersedia"
         })
       })]
     })

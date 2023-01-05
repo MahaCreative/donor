@@ -12,7 +12,7 @@ export default function index({ event }) {
     );
     return (
         <Container>
-            <div className='w-full'>
+            <div className='w-full min-h-screen'>
                 <div className='border-b border-dashed border-white text-center text-white'>
                     <h1 className='my-3  font-bold '>Event Donor Terbaru</h1>
                     <p>
@@ -21,7 +21,7 @@ export default function index({ event }) {
                     </p>
                 </div>
                 <Slide autoplay={true} indicators={indicators}>
-                    {event.map((slideImage, index) => (
+                    {event.length === 0 ? (event.map((slideImage, index) => (
                         <div className='each-fade' key={index}>
                             <div className='relative'>
                                 <img
@@ -44,7 +44,7 @@ export default function index({ event }) {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    ))) : (<p>Event Belum Tersedia</p>)}
                 </Slide>
             </div>
         </Container>
