@@ -82,9 +82,7 @@ export default function Navbar() {
                                             </DropdownMenu.ItemLink>
                                         </DropdownMenu>
                                     </NavLink>
-                                ) : (
-                                    ''
-                                )}
+                                ) : ( '' )}
                             </div>
                         </div>
                     </div>

@@ -82,7 +82,7 @@ export default function ResponsiveNavlink() {
                 </button>
 
                 <div className='flex flex-col items-center gap-y-6 py-16 '>
-                    <NavLink href={route('')} active={route().current('')}>
+                    <NavLink href={route('home')} active={route().current('')}>
                         Beranda
                     </NavLink>
                     <NavLink href={route('syarat-donor')} active={route().current('syarat-donor')}>

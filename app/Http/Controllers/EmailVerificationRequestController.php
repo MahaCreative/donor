@@ -9,16 +9,18 @@ class EmailVerificationRequestController extends Controller
 {
     public function index(EmailVerificationRequest $request)
     {
+
         $request->fulfill();
         return redirect('/');
     }
 
     public function email_verify(Request $request)
     {
+
         if ($request->user()->hasVerifiedEmail()) {
-            return redirect()->route('home');
+            return redirect()->route('');
         } else {
-            return inertia('Guest/Auth/VerifyEmail');
+            return inertia('Auth/VerifyEmail');
         }
     }
     public function resend_email(Request $request)

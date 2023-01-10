@@ -135,13 +135,14 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [LoginController::class, 'store']);
 });
 Route::get('sent-mqtt', function () {
-    $mqtt = new Mqtt();
+    dd(now()->format("H:i"));
+    // $mqtt = new Mqtt();
 
-    $output = $mqtt->ConnectAndPublish('sentSuhu', 'abg');
+    // $output = $mqtt->ConnectAndPublish('sentSuhu', 'abg');
 
-    if ($output === true) {
-        return "published";
-    }
+    // if ($output === true) {
+    //     return "published";
+    // }
 
-    return "Failed";
+    // return "Failed";
 });
