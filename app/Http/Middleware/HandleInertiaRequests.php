@@ -37,12 +37,12 @@ class HandleInertiaRequests extends Middleware
      * @return array
      */
     public function share(Request $request): array
-    {
-        // dd($request->user()->roles);
+    {;
         return array_merge(parent::share($request), [
             'auth' => [
                 'user' => $request->user(),
                 'role' => $request->user() ? $request->user()->roles : null,
+                // 'profile' => $request->user() ? $request->user()->roles : null,
             ],
             'imbox_pendonor' => RegistrasiDonor::where('status_dilihat', 'belum dilihat')->get(),
             'flash' => [
