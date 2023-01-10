@@ -6,7 +6,7 @@ export default function Container({ className, children, ...props }) {
         <div
             className={clsx(
                 className,
-                'px-4 md:px-8 lg:px-16 bgPrimary max-w-screen-2xl flex flex-row md:flex-row items-center justify-between'
+                ' px-4 md:px-8 lg:px-16 bgPrimary max-w-screen-4xl flex flex-row md:flex-row items-center justify-between'
             )}
         >
             {children}

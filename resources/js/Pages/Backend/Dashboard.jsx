@@ -46,7 +46,7 @@ export default function Dashboard({ darah, stok, jumlahPendonorBulan }) {
     });
 
     return (
-        <div className='bg-slate-800 h-screen'>
+        <div className='bg-slate-800 min-h-full'>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 py-1.5 px-3 gap-2 md:h-[450px] lg:h-[350px]'>
                 {stok.map((item, id) => (
                     <Card className={'flex flex-col'}>

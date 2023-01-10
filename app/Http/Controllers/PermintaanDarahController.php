@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\SendPermintaanDarah;
 use App\Models\GolonganDarah;
 use App\Models\Pendonor;
 use App\Models\PermintaanDarah;
@@ -48,8 +49,8 @@ class PermintaanDarahController extends Controller
     public function store(Request $req)
     {
         // Send Email
-
         $pendonor = Pendonor::where('gol_darah', $req->gol_darah)->get();
+        // event(new SendPermintaanDarah($req->all()));
         if ($pendonor) {
             foreach ($pendonor as $item) {
                 Mail::to($item->email)->send(new SendEmail($req->nama, $req->jumlah_permintaan, $item->nama, $req->keterangan, $req->golongan_darah));
@@ -74,6 +75,7 @@ class PermintaanDarahController extends Controller
                 'jumlah_permintaan' => $req->jumlah_permintaan,
                 'keterangan' => $req->keterangan,
             ]);
+            // event(new SendPermintaanDarah($req->all()));
             return redirect()->back()->with([
                 'type' => 'success',
                 'message' => 'Berhasil Menambahkan Data'

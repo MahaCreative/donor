@@ -29,17 +29,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Profile::factory(1)->create();
-        ProsesRegistrasiDonor::factory(30)->create();
-        ProsesPermintaanDarah::factory(30)->create();
+        // ProsesRegistrasiDonor::factory(30)->create();
+        // ProsesPermintaanDarah::factory(30)->create();
         $this->call([
             RoleSeeder::class,
             GolonganDarahSeeder::class,
             StokDarahSeeder::class,
-
         ]);
 
-        Pendonor::factory(30)->create();
+        // Pendonor::factory(30)->create();
         $user = User::find(1);
-        $user->assignRole('guest');
+        $user->assignRole('super admin');
     }
 }

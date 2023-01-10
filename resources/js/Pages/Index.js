@@ -9,7 +9,7 @@ export default function Index({ event }) {
     return (
         <>
             <Container id='beranda' className={'h-screen'}>
-                <div className='flex flex-col items-center gap-y-3 text-white px-2 md:px-3 lg:px-8'>
+                <div className='flex w-full flex-col items-center gap-y-3 text-white px-2 md:px-3 lg:px-8 justify-center'>
                     <img
                         className='w-[55%] lg:w-[350px]'
                         src='storage/images/donor.png'

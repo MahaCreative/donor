@@ -27,8 +27,7 @@ class LoginController extends Controller
                 'message' => 'Berhasil Login'
             ]);
         } else {
-            dd('a');
-            return redirect()->route('dashboard')->with([
+            return redirect()->back()->with([
                 'type' => 'error',
                 'message' => 'Email atau password anda salah'
             ]);
